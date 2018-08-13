@@ -1,0 +1,39 @@
+{
+  "name": "mediatracker-2017",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "connected-react-router": "^4.2.3",
+    "cors": "^2.8.4",
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "^4.13.0",
+    "mongoose-findorcreate": "^2.0.0",
+    "passport-facebook": "^2.1.1",
+    "passport-jwt": "^3.0.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
+    "styled-components": "^2.2.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.12.1",
+    "react-scripts": "1.0.16",
+    "redux-devtools-extension": "^2.13.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "start:server": "nodemon server/index.js --exec babel-node --watch server",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
