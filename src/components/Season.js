@@ -1,34 +1,57 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {SELECTORS} from '../reducers';
-import {loadSeason} from '../actions/seriesActions';
+import {Link} from 'react-router-dom';
+import {withRouter} from 'react-router';
 import styled from 'styled-components';
 import {font, color} from '../styles/typography';
-import EpisodeList from './EpisodeList';
 
-class Season extends React.Component {
-  render() {
-    const {season} = this.props;
+const shorten = (str, maxLen, separator = ' ') => {
+  if (str.length <= maxLen) return str;
+  return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+};
 
-    if (!season) return null;
+const StyledSeason = styled.li`
+  border-bottom: 1px solid ${props => props.theme.colors.borderColor};
+  a {
+    display: flex;
 
-    return (
-      <div>
-        {season.name}
-        <EpisodeList episodes={season.episodes} />
-      </div>
-    );
+    padding: 20px 0;
   }
-}
 
-const mapStateToProps = state => ({
-  season: SELECTORS.SERIES.getSeason(state),
-  isLoading: SELECTORS.SERIES.getIsLoading(state),
-});
+  .image-wrapper {
+    min-width: 120px;
+    max-width: 120px;
+    margin-right: 30px;
+  }
 
-const mapDispatchToProps = dispatch => ({
-  loadSeason: bindActionCreators(loadSeason, dispatch),
-});
+  img {
+    border-radius: 3px;
+  }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Season);
+  h4 {
+    ${font('body2')};
+    margin: 0 0 12px 0;
+  }
+
+  .overview {
+    ${font('body1')};
+  }
+`;
+
+const Season = ({season, match}) => (
+  <StyledSeason>
+    <Link to={`${match.url}/season/${season.season_number}`}>
+      <div className="image-wrapper">
+        <img src={`https://image.tmdb.org/t/p/w500/${season.poster_path}`} />
+      </div>
+      <div className="card-content">
+        <h4>
+          Season {season.season_number} | {season.episode_count} episodes
+        </h4>
+        {/* <p>{`Season ${season.season_number} of ${season.name} premiered on ${season.air_date}`}</p> */}
+        <div className="overview">{shorten(season.overview, 300)}</div>
+      </div>
+    </Link>
+  </StyledSeason>
+);
+
+export default withRouter(Season);

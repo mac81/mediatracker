@@ -13,6 +13,7 @@ function* routeChange(pathname) {
     path: `/tv/:id/season/:seasonNumber`,
   });
   if (seasonMatch) {
+    yield put(seriesActions.loadSeriesDetails(seasonMatch.params.id));
     yield put(seriesActions.loadSeason(seasonMatch.params.id, seasonMatch.params.seasonNumber));
     return;
   }
@@ -64,7 +65,11 @@ function* routeChange(pathname) {
   }
 }
 
-function* routeChangeSaga({payload: {location: {pathname}}}) {
+function* routeChangeSaga({
+  payload: {
+    location: {pathname},
+  },
+}) {
   yield fork(routeChange, pathname);
 }
 

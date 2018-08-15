@@ -6,15 +6,25 @@ import {addToWatchlist, removeFromWatchlist} from '../actions/seriesActions';
 
 import styled from 'styled-components';
 import {font, color} from '../styles/typography';
+import ScoreChart from './ScoreChart';
 
 const StyledHero = styled.div`
   position: relative;
-  background: url(${props => props.image});
-  background-size: cover;
-  height: 530px;
+  height: 590px;
+  margin-bottom: 30px;
+
+  .background-image {
+    position: absolute;
+    background: url(${props => props.image});
+    background-size: cover;
+    height: 530px;
+    width: 100%;
+  }
 
   .hero-overlay {
+    position: absolute;
     height: 100%;
+    width: 100%;
     background-image: radial-gradient(
       circle at 20% 50%,
       rgba(
@@ -34,10 +44,19 @@ const StyledHero = styled.div`
     );
   }
 
-  .hero-content {
+  .container {
     position: relative;
-    left: 33.33%;
-    padding: 100px 33.33% 100px 50px;
+    display: flex;
+    padding-top: 50px;
+  }
+
+  .hero-image {
+    width: 33.33%;
+  }
+
+  .hero-content {
+    width: 66.66%;
+    padding-left: 50px;
   }
 
   .hero-title {
@@ -47,6 +66,7 @@ const StyledHero = styled.div`
 
   h2 {
     ${font('display2')};
+    margin: 20px 0 20px 0;
     color: #fff;
   }
 
@@ -56,7 +76,7 @@ const StyledHero = styled.div`
   }
 
   .hero-overview {
-    ${font('body1')};
+    ${font('body2')};
     color: #fff;
   }
 `;
@@ -70,13 +90,17 @@ class Hero extends React.Component {
   }
 
   addToWatchlist() {
-    const {details: {id}} = this.props;
+    const {
+      details: {id},
+    } = this.props;
 
     this.props.addToWatchlist(id);
   }
 
   removeFromWatchlist() {
-    const {details: {id}} = this.props;
+    const {
+      details: {id},
+    } = this.props;
 
     this.props.removeFromWatchlist(id);
   }
@@ -92,22 +116,26 @@ class Hero extends React.Component {
 
     return (
       <StyledHero image={`https://image.tmdb.org/t/p/w1280/${details.backdrop_path}`} swatch={details.swatch}>
-        <div className="hero-overlay">
-          <div className="container">
-            <div className="hero-content">
-              <div className="hero-title">
-                <h2>
-                  {details.title || details.name} <span>{`(${releaseYear})`}</span>
-                </h2>
-                <span>{Math.floor(details.vote_average * 10).toFixed(0)}%</span>
-              </div>
-              <div className="hero-overview">{details.overview}</div>
-              {isAddedToWatchlist ? (
-                <button onClick={this.removeFromWatchlist}>Remove from watchlist</button>
-              ) : (
-                <button onClick={this.addToWatchlist}>Add to watchlist</button>
-              )}
+        <div className="background-image">
+          <div className="hero-overlay" />
+        </div>
+        <div className="container">
+          <div className="hero-image">
+            <img src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} />
+          </div>
+          <div className="hero-content">
+            <div className="hero-title">
+              <h2>
+                {details.title || details.name} <span>{`(${releaseYear})`}</span>
+              </h2>
             </div>
+            <ScoreChart score={details.vote_average} swatch={details.swatch} />
+            <div className="hero-overview">{details.overview}</div>
+            {/*isAddedToWatchlist ? (
+              <button onClick={this.removeFromWatchlist}>Remove from watchlist</button>
+            ) : (
+              <button onClick={this.addToWatchlist}>Add to watchlist</button>
+            )*/}
           </div>
         </div>
       </StyledHero>
@@ -125,4 +153,7 @@ const mapDispatchToProps = dispatch => ({
   removeFromWatchlist: bindActionCreators(removeFromWatchlist, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Hero);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Hero);

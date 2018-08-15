@@ -3,8 +3,15 @@ import * as types from '../actionTypes/actionTypes';
 import * as UserActions from '../actions/userActions';
 import {userLoginApi} from '../api/user';
 
+const netlifyIdentity = require('netlify-identity-widget');
+
 function* user() {
   yield takeLatest(types.USER_LOGIN, userLoginSaga);
+  yield takeLatest(types.USER_SIGNUP, userSignupSaga);
+}
+
+function* userSignupSaga() {
+  netlifyIdentity.open('signup');
 }
 
 function* userLoginSaga({payload: {username, password}}) {

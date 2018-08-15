@@ -1,5 +1,10 @@
 import * as types from '../actionTypes/actionTypes';
 
+export const setUser = user => ({
+  type: types.SET_USER,
+  payload: {user},
+});
+
 /**********
 ## LOGIN ##
 **********/
@@ -21,4 +26,8 @@ export const userLoginSuccess = user => ({
 export const userLoginFailure = error => ({
   type: types.USER_LOGIN_FAILURE,
   payload: {error},
+});
+
+export const userSignup = () => ({
+  type: types.USER_SIGNUP,
 });
