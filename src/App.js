@@ -24,20 +24,18 @@ netlifyIdentity.init({
 });
 
 function createTodo(data) {
-  if (netlifyIdentity.currentUser()) {
-    return netlifyIdentity
-      .currentUser()
-      .jwt()
-      .then(token => {
-        return fetch('/.netlify/functions/add-series-to-watchlist', {
-          body: JSON.stringify(data),
-          headers: {Authorization: `Bearer ${token}`},
-          method: 'POST',
-        }).then(response => {
-          return response.json();
-        });
+  return netlifyIdentity
+    .currentUser()
+    .jwt()
+    .then(token => {
+      return fetch('/.netlify/functions/add-series-to-watchlist', {
+        body: JSON.stringify(data),
+        headers: {Authorization: `Bearer ${token}`},
+        method: 'POST',
+      }).then(response => {
+        return response.json();
       });
-  }
+    });
 }
 
 // Todo data
@@ -47,14 +45,16 @@ const myTodo = {
 };
 
 // create it!
-createTodo(myTodo)
-  .then(response => {
-    console.log('API response', response);
-    // set app state
-  })
-  .catch(error => {
-    console.log('API error', error);
-  });
+if (netlifyIdentity.currentUser()) {
+  createTodo(myTodo)
+    .then(response => {
+      console.log('API response', response);
+      // set app state
+    })
+    .catch(error => {
+      console.log('API error', error);
+    });
+}
 
 class App extends Component {
   constructor(...args) {
