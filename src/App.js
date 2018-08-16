@@ -23,32 +23,21 @@ netlifyIdentity.init({
   APIUrl: 'http://www.websirius.com/.netlify/identity',
 });
 
-function generateHeaders() {
-  const headers = {'Content-Type': 'application/json'};
+function createTodo(data) {
   if (netlifyIdentity.currentUser()) {
     return netlifyIdentity
       .currentUser()
       .jwt()
       .then(token => {
-        return {...headers, Authorization: `Bearer ${token}`};
+        return fetch('/.netlify/functions/add-series-to-watchlist', {
+          body: JSON.stringify(data),
+          headers: {Authorization: `Bearer ${token}`},
+          method: 'POST',
+        }).then(response => {
+          return response.json();
+        });
       });
   }
-  return Promise.resolve(headers);
-}
-
-function createTodo(data) {
-  return netlifyIdentity
-    .currentUser()
-    .jwt()
-    .then(token => {
-      return fetch('/.netlify/functions/add-series-to-watchlist', {
-        body: JSON.stringify(data),
-        headers: {Authorization: `Bearer ${token}`},
-        method: 'POST',
-      }).then(response => {
-        return response.json();
-      });
-    });
 }
 
 // Todo data
