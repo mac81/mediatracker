@@ -8,7 +8,7 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context, callback) => {
   /* parse the string body into a useable JS object */
-  console.log('CONTEXT', context, context.clientContext);
+  console.log(JSON.stringify(context));
   const data = JSON.parse(event.body);
   console.log('Function `add-series-to-watchlist` invoked', data);
   const series = {
@@ -22,7 +22,7 @@ exports.handler = (event, context, callback) => {
       /* Success! return the response with statusCode 200 */
       return callback(null, {
         statusCode: 200,
-        body: JSON.stringify(response),
+        body: JSON.stringify(context),
       });
     })
     .catch(error => {
