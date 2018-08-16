@@ -91,10 +91,11 @@ class Hero extends React.Component {
 
   addToWatchlist() {
     const {
+      addToWatchlist,
       details: {id},
     } = this.props;
 
-    this.props.addToWatchlist(id);
+    addToWatchlist(id);
   }
 
   removeFromWatchlist() {
@@ -106,7 +107,7 @@ class Hero extends React.Component {
   }
 
   render() {
-    const {details, isAddedToWatchlist} = this.props;
+    const {user, details, isAddedToWatchlist} = this.props;
 
     if (!details) {
       return null;
@@ -129,6 +130,7 @@ class Hero extends React.Component {
                 {details.title || details.name} <span>{`(${releaseYear})`}</span>
               </h2>
             </div>
+            {user && <button onClick={this.addToWatchlist}>Add to watchlist</button>}
             <ScoreChart score={details.vote_average} swatch={details.swatch} />
             <div className="hero-overview">{details.overview}</div>
             {/*isAddedToWatchlist ? (
@@ -144,6 +146,7 @@ class Hero extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  user: SELECTORS.USER.getUser(state),
   details: SELECTORS.SERIES.getSeriesDetails(state),
   isAddedToWatchlist: SELECTORS.SERIES.getIsAddedToWatchlist(state),
 });

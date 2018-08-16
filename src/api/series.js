@@ -1,4 +1,5 @@
 const token = sessionStorage.getItem('token');
+const netlifyIdentity = require('netlify-identity-widget');
 
 export const getSeriesDetailsApi = id =>
   fetch(`http://localhost:3003/api/tv/${id}`, {
@@ -43,16 +44,18 @@ export const getUserSeriesApi = () =>
     .then(response => response.json())
     .then(json => json.payload);
 
-export const addToWatchlistApi = id =>
-  fetch(`http://localhost:3003/api/tv/${id}`, {
+export const addToWatchlistApi = id => {
+  const user = netlifyIdentity.currentUser();
+  return fetch(`http://localhost:3003/api/collection/series/${id}`, {
     method: 'POST',
     headers: {
-      'x-access-token': token,
+      'x-access-token': user.token.access_token,
       'content-type': 'application/json',
     },
   })
     .then(response => response.json())
     .then(json => json.payload);
+};
 
 export const removeFromWatchlistApi = id =>
   fetch(`http://localhost:3003/api/tv/${id}`, {

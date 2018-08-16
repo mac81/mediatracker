@@ -3,7 +3,7 @@ import router from './router';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import cors from 'cors';
-import passport from 'passport';
+//import passport from 'passport';
 import mongoose from 'mongoose';
 import {config} from './config';
 
@@ -14,9 +14,12 @@ server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 server.use(morgan('dev'));
 server.use(cors());
-server.use(passport.initialize());
+//server.use(passport.initialize());
 
-mongoose.connect(config.databaseUrl, {useMongoClient: true});
+mongoose.connect(
+  config.databaseUrl,
+  {useMongoClient: true}
+);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

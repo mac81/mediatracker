@@ -62,7 +62,7 @@ export default app => {
   collectionRoutes.get('/series', VerifyToken, CollectionController.getAllSeries);
 
   collectionRoutes.get('/series/:id', VerifyToken, CollectionController.getSeries);
-  collectionRoutes.post('/series/:id', VerifyToken, CollectionController.addSeries);
+  collectionRoutes.post('/series/:id', CollectionController.addSeries);
   collectionRoutes.delete('/series/:id', VerifyToken, CollectionController.removeSeries);
 
   collectionRoutes.get('/series/:id/season/:seasonNumber', VerifyToken, CollectionController.getSeason);
