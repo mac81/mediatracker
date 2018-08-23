@@ -42,7 +42,7 @@ export const addToWatchlistApi = id => {
   return fetch(`/.netlify/functions/add-series-to-watchlist?id=${id}`, {
     method: 'POST',
     headers: {
-      'x-access-token': user.token.access_token,
+      Authorization: `Bearer ${user.token.access_token}`,
       'content-type': 'application/json',
     },
   })
