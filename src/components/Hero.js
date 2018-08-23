@@ -28,16 +28,16 @@ const StyledHero = styled.div`
     background-image: radial-gradient(
       circle at 20% 50%,
       rgba(
-          ${props => props.swatch.DarkVibrant._rgb[0]},
-          ${props => props.swatch.DarkVibrant._rgb[1]},
-          ${props => props.swatch.DarkVibrant._rgb[2]},
+          ${props => props.swatch && props.swatch.DarkVibrant._rgb[0]},
+          ${props => props.swatch && props.swatch.DarkVibrant._rgb[1]},
+          ${props => props.swatch && props.swatch.DarkVibrant._rgb[2]},
           0.94
         )
         0%,
       rgba(
-          ${props => Math.round(props.swatch.DarkMuted._rgb[0])},
-          ${props => Math.round(props.swatch.DarkMuted._rgb[1])},
-          ${props => Math.round(props.swatch.DarkMuted._rgb[2])},
+          ${props => props.swatch && Math.round(props.swatch.DarkMuted._rgb[0])},
+          ${props => props.swatch && Math.round(props.swatch.DarkMuted._rgb[1])},
+          ${props => props.swatch && Math.round(props.swatch.DarkMuted._rgb[2])},
           0.94
         )
         100%
