@@ -22,11 +22,11 @@ function connectToDatabase(uri) {
   });
 }
 
-function queryDatabase(db, context) {
+function queryDatabase(db, user) {
   console.log('=> query database');
   return db
     .collection('users')
-    .update({userId: 1}, {userId: 1, name: 'Ted', age: 50}, {upsert: true})
+    .updateOne({userId: user.exp}, {userId: user.exp, series: event.queryStringParameters.id}, {upsert: true})
     .then(() => {
       return {statusCode: 200, body: 'success'};
     })
@@ -38,10 +38,10 @@ function queryDatabase(db, context) {
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  console.log(context.clientContext);
-  console.log(context.clientContext && context.clientContext.user);
+  const {user} = context.clientContext;
+
   connectToDatabase(MONGODB_URI)
-    .then(db => queryDatabase(db, context))
+    .then(db => queryDatabase(db, user))
     .then(result => {
       console.log('=> returning result: ', result);
       callback(null, result);
