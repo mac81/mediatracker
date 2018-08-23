@@ -24309,7 +24309,7 @@ function connectToDatabase(uri) {
 
 function queryDatabase(db, user, seriesId) {
   console.log('=> query database');
-  return db.collection('users').updateOne({ userId: user.exp }, { userId: user.exp, series: seriesId }, { upsert: true }).then(() => {
+  return db.collection('users').update({ userId: user.exp }, { userId: user.exp, series: seriesId }, { upsert: true }).then(() => {
     return { statusCode: 200, body: 'success' };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
