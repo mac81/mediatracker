@@ -1,29 +1,24 @@
-import { delay } from 'redux-saga';
-import { call, put, take, takeLatest, takeEvery, select, fork } from 'redux-saga/effects';
-import { SELECTORS } from '../reducers';
-import * as types from '../actionTypes/actionTypes';
+import {call, put, takeLatest, fork} from 'redux-saga/effects';
+
 import * as SearchActions from '../actions/searchActions';
-import { getSearchResultApi } from '../api/search';
-// import * as NavigationActions from '../actions/NavigationActions';
-// import {loadTemplate, loadTemplateQuestions} from './templates';
-// import {stdLib} from '../utils/widgetProps';
+import {getSearchResultApi} from '../api/search';
 
 function* search() {
-  yield takeLatest(types.LOAD_SEARCH_RESULT, loadSearchResultSaga);
+  yield takeLatest(SearchActions.search, loadSearchResultSaga);
 }
 
-function* loadSearchResultSaga({ payload: { query } }) {
+function* loadSearchResultSaga({payload: {query}}) {
   yield fork(loadSearchResult, query);
 }
 
 function* loadSearchResult(query) {
-  yield put(SearchActions.loadSearchResultRequest(query));
+  yield put(SearchActions.search.request(query));
   try {
     const searchResult = yield call(getSearchResultApi, query);
-    yield put(SearchActions.loadSearchResultSuccess(searchResult));
+    yield put(SearchActions.search.success({searchResult}));
   } catch (error) {
     console.log(error);
-    yield put(SearchActions.loadSearchResultFailure(error));
+    yield put(SearchActions.search.failure(error));
   }
 }
 

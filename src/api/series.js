@@ -2,22 +2,15 @@ const token = sessionStorage.getItem('token');
 const netlifyIdentity = require('netlify-identity-widget');
 
 export const getSeriesDetailsApi = id =>
-  fetch(`http://localhost:3003/api/tv/${id}`, {
+  fetch(`/.netlify/functions/get-series?id=${id}`, {
     method: 'GET',
-    headers: {
-      'x-access-token': token,
-    },
   })
     .then(response => response.json())
     .then(json => json.payload);
 
 export const getSeasonApi = (id, seasonNumber) =>
-  fetch(`http://localhost:3003/api/tv/${id}/season/${seasonNumber}`, {
+  fetch(`/.netlify/functions/get-season?id=${id}&seasonNumber=${seasonNumber}`, {
     method: 'GET',
-    headers: {
-      'x-access-token': token,
-      'content-type': 'application/json',
-    },
   })
     .then(response => response.json())
     .then(json => json.payload);
@@ -46,7 +39,7 @@ export const getUserSeriesApi = () =>
 
 export const addToWatchlistApi = id => {
   const user = netlifyIdentity.currentUser();
-  return fetch(`http://localhost:3003/api/collection/series/${id}`, {
+  return fetch(`/.netlify/functions/add-series-to-watchlist?id=${id}`, {
     method: 'POST',
     headers: {
       'x-access-token': user.token.access_token,

@@ -1,36 +1,53 @@
-import faunadb from 'faunadb';
+var MongoClient = require('mongodb').MongoClient;
 
-/* configure faunaDB Client with our secret */
-const q = faunadb.query;
-const client = new faunadb.Client({
-  secret: 'fnAC4iU94rACDRtzYeM1tjfh_l8nEaGmifyFd6fe',
-});
+const MONGODB_URI = `mongodb+srv://thomasw:${encodeURIComponent(
+  'Mac173173'
+)}@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
+let cachedDb = null;
+
+function connectToDatabase(uri) {
+  console.log('=> connect to database');
+
+  if (cachedDb) {
+    console.log('=> using cached database instance');
+    return Promise.resolve(cachedDb);
+  }
+
+  return MongoClient.connect(
+    uri,
+    {useNewUrlParser: true}
+  ).then(database => {
+    cachedDb = database.db('test');
+    return cachedDb;
+  });
+}
+
+function queryDatabase(db, context) {
+  console.log('=> query database');
+  return db
+    .collection('users')
+    .update({userId: 1}, {userId: 1, name: 'Ted', age: 50}, {upsert: true})
+    .then(() => {
+      return {statusCode: 200, body: 'success'};
+    })
+    .catch(err => {
+      console.log('=> an error occurred: ', err);
+      return {statusCode: 500, body: 'error'};
+    });
+}
 
 exports.handler = (event, context, callback) => {
-  /* parse the string body into a useable JS object */
-  console.log(JSON.stringify(context));
-  const data = JSON.parse(event.body);
-  console.log('Function `add-series-to-watchlist` invoked', data);
-  const series = {
-    data: data,
-  };
-  /* construct the fauna query */
-  return client
-    .query(q.Create(q.Ref('classes/series'), series))
-    .then(response => {
-      console.log('success', response);
-      /* Success! return the response with statusCode 200 */
-      return callback(null, {
-        statusCode: 200,
-        body: JSON.stringify(context),
-      });
+  context.callbackWaitsForEmptyEventLoop = false;
+  console.log(context.clientContext);
+  console.log(context.clientContext && context.clientContext.user);
+  connectToDatabase(MONGODB_URI)
+    .then(db => queryDatabase(db, context))
+    .then(result => {
+      console.log('=> returning result: ', result);
+      callback(null, result);
     })
-    .catch(error => {
-      console.log('error', error);
-      /* Error! return the error with statusCode 400 */
-      return callback(null, {
-        statusCode: 400,
-        body: JSON.stringify(error),
-      });
+    .catch(err => {
+      console.log('=> an error occurred: ', err);
+      callback(err);
     });
 };

@@ -4,7 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 import {store, history} from './store/store';
 import logo from './logo.svg';
 import './App.css';
-import SearchResult from './components/SearchResult';
+import Search from './components/Search';
 import MovieDetails from './components/MovieDetails';
 import Header from './components/Header';
 
@@ -23,38 +23,38 @@ netlifyIdentity.init({
   APIUrl: 'http://www.websirius.com/.netlify/identity',
 });
 
-function createTodo(data) {
-  return netlifyIdentity
-    .currentUser()
-    .jwt()
-    .then(token => {
-      return fetch('/.netlify/functions/add-series-to-watchlist', {
-        body: JSON.stringify(data),
-        headers: {Authorization: `Bearer ${token}`},
-        method: 'POST',
-      }).then(response => {
-        return response.json();
-      });
-    });
-}
+// function createTodo(data) {
+//   return netlifyIdentity
+//     .currentUser()
+//     .jwt()
+//     .then(token => {
+//       return fetch('/.netlify/functions/add-series-to-watchlist', {
+//         body: JSON.stringify(data),
+//         headers: {Authorization: `Bearer ${token}`},
+//         method: 'POST',
+//       }).then(response => {
+//         return response.json();
+//       });
+//     });
+// }
 
-// Todo data
-const myTodo = {
-  title: 'My todo title',
-  completed: false,
-};
+// // Todo data
+// const myTodo = {
+//   title: 'My todo title',
+//   completed: false,
+// };
 
-// create it!
-if (netlifyIdentity.currentUser()) {
-  createTodo(myTodo)
-    .then(response => {
-      console.log('API response', response);
-      // set app state
-    })
-    .catch(error => {
-      console.log('API error', error);
-    });
-}
+// // create it!
+// if (netlifyIdentity.currentUser()) {
+//   createTodo(myTodo)
+//     .then(response => {
+//       console.log('API response', response);
+//       // set app state
+//     })
+//     .catch(error => {
+//       console.log('API error', error);
+//     });
+// }
 
 class App extends Component {
   constructor(...args) {
@@ -70,7 +70,7 @@ class App extends Component {
             <div className="app">
               <div>
                 <Header />
-                <SearchResult />
+                <Search />
                 <Switch>
                   <Route exact path={`/`} render={() => <div>Homepage</div>} />
                   <Route exact path={`/login`} component={Login} />

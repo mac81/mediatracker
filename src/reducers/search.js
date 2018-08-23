@@ -1,19 +1,19 @@
 import createReducer from '../utils/createReducer';
 import * as types from '../actionTypes/actionTypes';
+import * as SearchActions from '../actions/searchActions';
 
 const initialState = {
-  searchResults: []
+  searchResults: [],
 };
 
 export default createReducer(initialState, {
   [types.LOAD_SEARCH_RESULT]: state => ({
     ...state,
   }),
-  [types.LOAD_SEARCH_RESULT_SUCCESS]: (state, { payload: { searchResult } }) => ({
+  [SearchActions.search.success]: (state, {payload: {searchResult}}) => ({
     ...state,
-    searchResults: searchResult.results
+    searchResults: searchResult.results,
   }),
-
 });
 
 export const SELECTORS = {
