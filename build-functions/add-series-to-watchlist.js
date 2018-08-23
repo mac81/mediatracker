@@ -24307,9 +24307,9 @@ function connectToDatabase(uri) {
   });
 }
 
-function queryDatabase(db, user) {
+function queryDatabase(db, user, seriesId) {
   console.log('=> query database');
-  return db.collection('users').updateOne({ userId: user.exp }, { userId: user.exp, series: event.queryStringParameters.id }, { upsert: true }).then(() => {
+  return db.collection('users').updateOne({ userId: user.exp }, { userId: user.exp, series: seriesId }, { upsert: true }).then(() => {
     return { statusCode: 200, body: 'success' };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
@@ -24320,8 +24320,9 @@ function queryDatabase(db, user) {
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
   const { user } = context.clientContext;
+  const seriesId = event.queryStringParameters.id;
 
-  connectToDatabase(MONGODB_URI).then(db => queryDatabase(db, user)).then(result => {
+  connectToDatabase(MONGODB_URI).then(db => queryDatabase(db, user, seriesId)).then(result => {
     console.log('=> returning result: ', result);
     callback(null, result);
   }).catch(err => {
