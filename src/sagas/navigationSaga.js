@@ -3,6 +3,7 @@ import * as types from '../actionTypes/actionTypes';
 import {matchPath} from 'react-router-dom';
 import * as seriesActions from '../actions/seriesActions';
 import * as movieActions from '../actions/movieActions';
+import * as CollectionActions from '../actions/collectionActions';
 
 function* navigation() {
   yield takeLatest([types.APP_INIT, types.LOCATION_CHANGE], routeChangeSaga);
@@ -61,6 +62,14 @@ function* routeChange(pathname) {
   });
   if (MovieDetailsMatch) {
     yield put(movieActions.loadMovieDetails(MovieDetailsMatch.params.id));
+    return;
+  }
+
+  const collectionMatch = matchPath(pathname, {
+    path: `/collection`,
+  });
+  if (collectionMatch) {
+    yield put(CollectionActions.fetchUserCollection());
     return;
   }
 }

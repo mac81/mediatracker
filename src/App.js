@@ -8,7 +8,7 @@ import Search from './components/Search';
 import MovieDetails from './components/MovieDetails';
 import Header from './components/Header';
 
-import {Login, AllSeriesCollection, SeriesCollection, SeriesOverview, Season} from './pages';
+import {Login, UserCollection, SeriesOverview, Season} from './pages';
 import {ThemeProvider} from 'styled-components';
 import {theme} from './styles/theme';
 import {APP_INIT, SET_USER} from './actionTypes/actionTypes';
@@ -22,39 +22,6 @@ netlifyIdentity.init({
   container: '#identity', // defaults to document.body,
   APIUrl: 'http://www.websirius.com/.netlify/identity',
 });
-
-// function createTodo(data) {
-//   return netlifyIdentity
-//     .currentUser()
-//     .jwt()
-//     .then(token => {
-//       return fetch('/.netlify/functions/add-series-to-watchlist', {
-//         body: JSON.stringify(data),
-//         headers: {Authorization: `Bearer ${token}`},
-//         method: 'POST',
-//       }).then(response => {
-//         return response.json();
-//       });
-//     });
-// }
-
-// // Todo data
-// const myTodo = {
-//   title: 'My todo title',
-//   completed: false,
-// };
-
-// // create it!
-// if (netlifyIdentity.currentUser()) {
-//   createTodo(myTodo)
-//     .then(response => {
-//       console.log('API response', response);
-//       // set app state
-//     })
-//     .catch(error => {
-//       console.log('API error', error);
-//     });
-// }
 
 class App extends Component {
   constructor(...args) {
@@ -77,8 +44,7 @@ class App extends Component {
                   <Route path={`/movie/:id`} component={MovieDetails} />
                   <Route exact path={`/tv/:id`} component={SeriesOverview} />
                   <Route path={`/tv/:id/season/:seasonNumber`} component={Season} />
-                  <Route exact path={`/collection/series`} component={AllSeriesCollection} />
-                  <Route path={`/collection/series/:id`} component={SeriesCollection} />
+                  <Route exact path={`/collection`} component={UserCollection} />
                 </Switch>
               </div>
             </div>

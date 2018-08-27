@@ -7,8 +7,8 @@ import {
   getSeriesDetailsApi,
   getSeasonApi,
   getUserSeriesApi,
-  addToWatchlistApi,
-  removeFromWatchlistApi,
+  addSeriesToWatchlistApi,
+  removeSeriesFromWatchlistApi,
   addEpisodeApi,
   removeEpisodeApi,
   getSeasonCollectionApi,
@@ -19,8 +19,8 @@ function* tvs() {
   yield takeLatest(types.LOAD_SEASON, loadSeasonSaga);
   yield takeLatest(types.LOAD_SEASON_COLLECTION, loadSeasonCollectionSaga);
   yield takeLatest(types.LOAD_USER_SERIES, loadUserSeriesSaga);
-  yield takeLatest(types.ADD_TO_WATCHLIST, addToWatchlistSaga);
-  yield takeLatest(types.REMOVE_FROM_WATCHLIST, removeFromWatchlistSaga);
+  yield takeLatest(SeriesActions.addSeriesToWatchlist, addSeriesToWatchlistSaga);
+  yield takeLatest(SeriesActions.removeSeriesFromWatchlist, removeSeriesFromWatchlistSaga);
   yield takeLatest(types.ADD_EPISODE, addEpisodeSaga);
   yield takeLatest(types.REMOVE_EPISODE, removeEpisodeSaga);
 }
@@ -37,12 +37,12 @@ function* loadSeasonCollectionSaga({payload: {id, seasonNumber}}) {
   yield fork(loadSeasonCollection, id, seasonNumber);
 }
 
-function* addToWatchlistSaga({payload: {id}}) {
-  yield fork(addToWatchlist, id);
+function* addSeriesToWatchlistSaga({payload: {id, name}}) {
+  yield fork(addSeriesToWatchlist, id, name);
 }
 
-function* removeFromWatchlistSaga({payload: {id}}) {
-  yield fork(removeFromWatchlist, id);
+function* removeSeriesFromWatchlistSaga({payload: {id}}) {
+  yield fork(removeSeriesFromWatchlist, id);
 }
 
 function* addEpisodeSaga({payload: {id, episodeId}}) {
@@ -97,25 +97,25 @@ function* loadSeasonCollection(id, seasonNumber) {
   }
 }
 
-function* addToWatchlist(id) {
-  yield put(SeriesActions.addToWatchlistRequest(id));
+function* addSeriesToWatchlist(id, name) {
+  yield put(SeriesActions.addSeriesToWatchlist.request(id));
   try {
-    const series = yield call(addToWatchlistApi, id);
-    yield put(SeriesActions.addToWatchlistSuccess(series));
+    const series = yield call(addSeriesToWatchlistApi, id, name);
+    yield put(SeriesActions.addSeriesToWatchlist.success({series}));
   } catch (error) {
     console.log(error);
-    yield put(SeriesActions.addToWatchlistFailure(error));
+    yield put(SeriesActions.addSeriesToWatchlist.failure(error));
   }
 }
 
-function* removeFromWatchlist(id) {
-  yield put(SeriesActions.removeFromWatchlistRequest(id));
+function* removeSeriesFromWatchlist(id) {
+  yield put(SeriesActions.removeSeriesFromWatchlist.request(id));
   try {
-    const series = yield call(removeFromWatchlistApi, id);
-    yield put(SeriesActions.removeFromWatchlistSuccess(series));
+    yield call(removeSeriesFromWatchlistApi, id);
+    yield put(SeriesActions.removeSeriesFromWatchlist.success());
   } catch (error) {
     console.log(error);
-    yield put(SeriesActions.removeFromWatchlistFailure(error));
+    yield put(SeriesActions.removeSeriesFromWatchlist.failure(error));
   }
 }
 

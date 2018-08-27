@@ -1,9 +1,10 @@
 import createReducer from '../utils/createReducer';
 import * as types from '../actionTypes/actionTypes';
 import arrayToObject from '../utils/arrayToObject';
+import * as SeriesActions from '../actions/seriesActions';
 
 const initialState = {
-  userSeries: null,
+  userSeries: [],
 };
 
 export default createReducer(initialState, {
@@ -41,9 +42,10 @@ export default createReducer(initialState, {
     ...state,
     userSeries: arrayToObject(userSeries),
   }),
-  [types.ADD_TO_WATCHLIST_SUCCESS]: (state, {payload: {userSeries}}) => ({
+  [SeriesActions.addSeriesToWatchlist.success]: (state, {payload: {series}}) => ({
     ...state,
     isAddedToWatchlist: true,
+    userSeries: [...state.userSeries, series.id],
   }),
   [types.REMOVE_FROM_WATCHLIST_SUCCESS]: (state, {payload: {userSeries}}) => ({
     ...state,

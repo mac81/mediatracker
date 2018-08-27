@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {SELECTORS} from '../reducers';
-import {addToWatchlist, removeFromWatchlist} from '../actions/seriesActions';
+import {addSeriesToWatchlist, removeSeriesFromWatchlist} from '../actions/seriesActions';
 
 import styled from 'styled-components';
 import {font, color} from '../styles/typography';
@@ -91,27 +91,30 @@ class Hero extends React.Component {
 
   addToWatchlist() {
     const {
-      addToWatchlist,
-      details: {id},
+      addSeriesToWatchlist,
+      details: {id, name},
     } = this.props;
 
-    addToWatchlist(id);
+    addSeriesToWatchlist({id, name});
   }
 
   removeFromWatchlist() {
     const {
+      removeSeriesFromWatchlist,
       details: {id},
     } = this.props;
 
-    this.props.removeFromWatchlist(id);
+    removeSeriesFromWatchlist({id});
   }
 
   render() {
-    const {user, details, isAddedToWatchlist} = this.props;
+    const {user, details, isAddedToWatchlist, isSeriesInCollection} = this.props;
 
     if (!details) {
       return null;
     }
+
+    console.log('isSeriesInCollection: ', isSeriesInCollection);
 
     const releaseYear = new Date(details.release_date || details.first_air_date).getFullYear();
 
@@ -130,7 +133,12 @@ class Hero extends React.Component {
                 {details.title || details.name} <span>{`(${releaseYear})`}</span>
               </h2>
             </div>
-            {user && <button onClick={this.addToWatchlist}>Add to watchlist</button>}
+            {user &&
+              (!isSeriesInCollection ? (
+                <button onClick={this.addToWatchlist}>Add to watchlist</button>
+              ) : (
+                <button onClick={this.removeFromWatchlist}>Remove from watchlist</button>
+              ))}
             <ScoreChart score={details.vote_average} swatch={details.swatch} />
             <div className="hero-overview">{details.overview}</div>
             {/*isAddedToWatchlist ? (
@@ -149,11 +157,12 @@ const mapStateToProps = state => ({
   user: SELECTORS.USER.getUser(state),
   details: SELECTORS.SERIES.getSeriesDetails(state),
   isAddedToWatchlist: SELECTORS.SERIES.getIsAddedToWatchlist(state),
+  isSeriesInCollection: SELECTORS.COLLECTION.getIsSeriesInCollection(state, 48866),
 });
 
 const mapDispatchToProps = dispatch => ({
-  addToWatchlist: bindActionCreators(addToWatchlist, dispatch),
-  removeFromWatchlist: bindActionCreators(removeFromWatchlist, dispatch),
+  addSeriesToWatchlist: bindActionCreators(addSeriesToWatchlist, dispatch),
+  removeSeriesFromWatchlist: bindActionCreators(removeSeriesFromWatchlist, dispatch),
 });
 
 export default connect(

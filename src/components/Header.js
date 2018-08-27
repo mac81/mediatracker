@@ -60,7 +60,10 @@ class Header extends Component {
             </ul>
           </nav>
         </div>
-        <UserMenu />
+        <div>
+          <Link to="/collection">My collection</Link>
+          <UserMenu />
+        </div>
       </StyledHeader>
     );
   }

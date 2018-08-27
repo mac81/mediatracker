@@ -10,6 +10,7 @@ import movies from '../sagas/moviesSaga';
 import series from '../sagas/seriesSaga';
 import user from '../sagas/userSaga';
 import navigation from '../sagas/navigationSaga';
+import collection from '../sagas/collectionSaga';
 
 const history = createBrowserHistory();
 
@@ -27,5 +28,6 @@ sagaMiddleware.run(search);
 sagaMiddleware.run(movies);
 sagaMiddleware.run(series);
 sagaMiddleware.run(user);
+sagaMiddleware.run(collection);
 
 export {store, history};

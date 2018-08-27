@@ -37,29 +37,35 @@ export const getUserSeriesApi = () =>
     .then(response => response.json())
     .then(json => json.payload);
 
-export const addToWatchlistApi = id => {
+export const addSeriesToWatchlistApi = (id, name) => {
   const user = netlifyIdentity.currentUser();
-  return fetch(`/.netlify/functions/add-series-to-watchlist?id=${id}`, {
+  return fetch(`/.netlify/functions/add-series-to-watchlist`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${user.token.access_token}`,
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({id, name}),
   })
     .then(response => response.json())
-    .then(json => json.payload);
+    .then(json => json)
+    .catch(error => console.error('Error:', error));
 };
 
-export const removeFromWatchlistApi = id =>
-  fetch(`http://localhost:3003/api/tv/${id}`, {
+export const removeSeriesFromWatchlistApi = id => {
+  const user = netlifyIdentity.currentUser();
+  return fetch(`/.netlify/functions/remove-series-from-watchlist`, {
     method: 'DELETE',
     headers: {
-      'x-access-token': token,
-      'content-type': 'application/json',
+      Authorization: `Bearer ${user.token.access_token}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({id}),
   })
     .then(response => response.json())
-    .then(json => json.payload);
+    .then(json => json)
+    .catch(error => console.error('Error:', error));
+};
 
 export const addEpisodeApi = (id, episodeId) =>
   fetch(`http://localhost:3003/api/collection/series/${id}/${episodeId}`, {

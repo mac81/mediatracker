@@ -1,8 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 
-const MONGODB_URI = `mongodb+srv://thomasw:${encodeURIComponent(
-  'Mac173173'
-)}@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
+const MONGODB_URI = `mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
 let cachedDb = null;
 
 function connectToDatabase(uri) {
@@ -25,13 +23,13 @@ function connectToDatabase(uri) {
 function queryDatabase(db, user, payload) {
   console.log('=> query database');
 
-  const {id, name} = payload;
+  const {id} = payload;
 
   return db
     .collection('users')
-    .updateOne({userId: user.exp}, {$set: {userId: user.exp}, $addToSet: {series: {id, name}}}, {upsert: true})
+    .updateOne({userId: user.exp}, {$pull: {series: {id: id}}}, {upsert: true})
     .then(() => {
-      return {statusCode: 200, body: JSON.stringify({id, name})};
+      return {statusCode: 200, body: JSON.stringify({id})};
     })
     .catch(err => {
       console.log('=> an error occurred: ', err);

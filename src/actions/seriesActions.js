@@ -1,5 +1,9 @@
 import * as types from '../actionTypes/actionTypes';
 
+import {createRoutine} from 'redux-saga-routines';
+export const addSeriesToWatchlist = createRoutine('ADD_SERIES_TO_WATCHLIST');
+export const removeSeriesFromWatchlist = createRoutine('REMOVE_SERIES_FROM_WATCHLIST');
+
 /************
 ## DETAILS ##
 ************/
@@ -98,9 +102,9 @@ export const loadUserSeriesFailure = error => ({
 ## ADD TO WATCHLIST ##
 *********************/
 
-export const addToWatchlist = id => ({
+export const addToWatchlist = (id, name) => ({
   type: types.ADD_TO_WATCHLIST,
-  payload: {id},
+  payload: {id, name},
 });
 
 export const addToWatchlistRequest = () => ({

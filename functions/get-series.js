@@ -13,6 +13,16 @@ exports.handler = (event, context, callback) => {
       //   const swatch = {
       //     swatch: palette,
       //   };
+
+      // fetch(`http://www.websirius.com/.netlify/functions/get-user-collection`, {
+      //   method: 'GET',
+      //   headers: {'content-type': 'application/json'},
+      // })
+      //   .then(response => response.json())
+      //   .then(json => {
+      //     console.log(json);
+      //   });
+
       return callback(null, {
         statusCode: 200,
         body: JSON.stringify({
