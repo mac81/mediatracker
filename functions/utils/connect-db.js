@@ -1,8 +1,8 @@
-var MongoClient = require('mongodb').MongoClient;
+import {MongoClient} from 'mongodb';
 
 let cachedDb = null;
 
-export default function connectToDatabase(uri) {
+export default function connectToDatabase() {
   console.log('=> connect to database');
 
   if (cachedDb) {
@@ -11,7 +11,7 @@ export default function connectToDatabase(uri) {
   }
 
   return MongoClient.connect(
-    uri,
+    `mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`,
     {useNewUrlParser: true}
   ).then(database => {
     cachedDb = database.db('test');

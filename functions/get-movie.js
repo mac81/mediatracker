@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import * as Vibrant from 'node-vibrant';
 
 import {config} from '../config';
 
@@ -9,11 +8,6 @@ exports.handler = (event, context, callback) => {
   fetch(`${apiRoot}movie/${event.queryStringParameters.id}?api_key=${apiKey}`)
     .then(res => res.json())
     .then(json => {
-      // Vibrant.from(`https://image.tmdb.org/t/p/w1280/${json.poster_path}`).getPalette((err, palette) => {
-      //   const swatch = {
-      //     swatch: palette,
-      //   };
-
       fetch(`http://www.websirius.com/.netlify/functions/get-user-collection`, {
         method: 'GET',
         headers: {'content-type': 'application/json'},
@@ -31,8 +25,6 @@ exports.handler = (event, context, callback) => {
             }),
           });
         });
-
-      // });
     })
     .catch(error => {
       console.log('error', error);

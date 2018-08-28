@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-
 import {config} from '../config';
 
 exports.handler = (event, context, callback) => {

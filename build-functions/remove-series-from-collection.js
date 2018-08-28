@@ -35383,26 +35383,13 @@ module.exports.Decimal128 = Decimal128;
 "use strict";
 
 
-var MongoClient = __webpack_require__(200).MongoClient;
+var _connectDb = __webpack_require__(631);
 
-const MONGODB_URI = `mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
-let cachedDb = null;
+var _connectDb2 = _interopRequireDefault(_connectDb);
 
-function connectToDatabase(uri) {
-  console.log('=> connect to database');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-  if (cachedDb) {
-    console.log('=> using cached database instance');
-    return Promise.resolve(cachedDb);
-  }
-
-  return MongoClient.connect(uri, { useNewUrlParser: true }).then(database => {
-    cachedDb = database.db('test');
-    return cachedDb;
-  });
-}
-
-function queryDatabase(db, user, payload) {
+const queryDatabase = (db, user, payload) => {
   console.log('=> query database');
 
   const { id } = payload;
@@ -35413,7 +35400,7 @@ function queryDatabase(db, user, payload) {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };
   });
-}
+};
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -35424,7 +35411,7 @@ exports.handler = (event, context, callback) => {
 
   const payload = JSON.parse(event.body);
 
-  connectToDatabase(MONGODB_URI).then(db => queryDatabase(db, user, payload)).then(result => {
+  (0, _connectDb2.default)().then(db => queryDatabase(db, user, payload)).then(result => {
     console.log('=> returning result: ', result);
     callback(null, result);
   }).catch(err => {
@@ -35453,6 +35440,37 @@ function MaxKey() {
 module.exports = MaxKey;
 module.exports.MaxKey = MaxKey;
 
+
+/***/ }),
+
+/***/ 631:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = connectToDatabase;
+
+var _mongodb = __webpack_require__(200);
+
+let cachedDb = null;
+
+function connectToDatabase() {
+  console.log('=> connect to database');
+
+  if (cachedDb) {
+    console.log('=> using cached database instance');
+    return Promise.resolve(cachedDb);
+  }
+
+  return _mongodb.MongoClient.connect(`mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`, { useNewUrlParser: true }).then(database => {
+    cachedDb = database.db('test');
+    return cachedDb;
+  });
+}
 
 /***/ }),
 

@@ -1,29 +1,6 @@
-var MongoClient = require('mongodb').MongoClient;
 import connectToDatabase from './utils/connect-db';
 
-const MONGODB_URI = `mongodb+srv://thomasw:${encodeURIComponent(
-  'Mac173173'
-)}@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
-// let cachedDb = null;
-
-// function connectToDatabase(uri) {
-//   console.log('=> connect to database');
-
-//   if (cachedDb) {
-//     console.log('=> using cached database instance');
-//     return Promise.resolve(cachedDb);
-//   }
-
-//   return MongoClient.connect(
-//     uri,
-//     {useNewUrlParser: true}
-//   ).then(database => {
-//     cachedDb = database.db('test');
-//     return cachedDb;
-//   });
-// }
-
-function queryDatabase(db, user, payload) {
+const queryDatabase = (db, user, payload) => {
   console.log('=> query database');
 
   const {id, name} = payload;
@@ -38,7 +15,7 @@ function queryDatabase(db, user, payload) {
       console.log('=> an error occurred: ', err);
       return {statusCode: 500, body: 'error'};
     });
-}
+};
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -49,7 +26,7 @@ exports.handler = (event, context, callback) => {
 
   const payload = JSON.parse(event.body);
 
-  connectToDatabase(MONGODB_URI)
+  connectToDatabase()
     .then(db => queryDatabase(db, user, payload))
     .then(result => {
       console.log('=> returning result: ', result);
