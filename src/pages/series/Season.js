@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {SELECTORS} from '../../reducers';
-import {loadSeason} from '../../actions/seriesActions';
 import styled from 'styled-components';
 import {font, color} from '../../styles/typography';
 import EpisodeList from '../../components/EpisodeList';
@@ -28,11 +27,7 @@ const mapStateToProps = state => ({
   isLoading: SELECTORS.SERIES.getIsLoading(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadSeason: bindActionCreators(loadSeason, dispatch),
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  undefined
 )(Season);

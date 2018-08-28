@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 628);
+/******/ 	return __webpack_require__(__webpack_require__.s = 629);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -35377,7 +35377,7 @@ module.exports.Decimal128 = Decimal128;
 
 /***/ }),
 
-/***/ 628:
+/***/ 629:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35402,11 +35402,13 @@ function connectToDatabase(uri) {
   });
 }
 
-function queryDatabase(db, user) {
+function queryDatabase(db, user, payload) {
   console.log('=> query database');
 
-  return db.collection('users').findOne({ userId: user.exp }).then(user => {
-    return { statusCode: 200, body: JSON.stringify({ series: user.series }) };
+  const { id } = payload;
+
+  return db.collection('users').updateOne({ userId: user.exp }, { $pull: { series: { id: id } } }, { upsert: true }).then(() => {
+    return { statusCode: 200, body: JSON.stringify({ id }) };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };
@@ -35420,7 +35422,9 @@ exports.handler = (event, context, callback) => {
     exp: 1
   };
 
-  connectToDatabase(MONGODB_URI).then(db => queryDatabase(db, user)).then(result => {
+  const payload = JSON.parse(event.body);
+
+  connectToDatabase(MONGODB_URI).then(db => queryDatabase(db, user, payload)).then(result => {
     console.log('=> returning result: ', result);
     callback(null, result);
   }).catch(err => {

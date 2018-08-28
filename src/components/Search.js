@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
 import {SELECTORS} from '../reducers';
-import {loadMovieDetails} from '../actions/movieActions';
 import {search} from '../actions/searchActions';
 
 import styled from 'styled-components';
@@ -99,7 +98,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadMovieDetails: bindActionCreators(loadMovieDetails, dispatch),
   loadSearchResult: bindActionCreators(search, dispatch),
 });
 

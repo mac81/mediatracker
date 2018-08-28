@@ -1,7 +1,10 @@
 import createReducer from '../utils/createReducer';
 import * as CollectionActions from '../actions/collectionActions';
 
-const initialState = {};
+const initialState = {
+  series: [],
+  movies: [],
+};
 
 export default createReducer(initialState, {
   [CollectionActions.fetchUserCollection.success]: (state, {payload: {collection}}) => ({

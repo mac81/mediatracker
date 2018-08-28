@@ -1,21 +1,25 @@
-import * as types from '../actionTypes/actionTypes';
+import {createRoutine} from 'redux-saga-routines';
 
-export const loadMovieDetails = id => ({
-  type: types.LOAD_MOVIE_DETAILS,
-  payload: { id },
-});
+export const fetchMovie = createRoutine('FETCH_MOVIE');
 
-export const loadMovieDetailsRequest = id => ({
-  type: types.LOAD_MOVIE_DETAILS_REQUEST,
-  payload: { id },
-});
+// import * as types from '../actionTypes/actionTypes';
 
-export const loadMovieDetailsSuccess = movie => ({
-  type: types.LOAD_MOVIE_DETAILS_SUCCESS,
-  payload: { movie },
-});
+// export const loadMovieDetails = id => ({
+//   type: types.LOAD_MOVIE_DETAILS,
+//   payload: { id },
+// });
 
-export const loadMovieDetailsFailure = error => ({
-  type: types.LOAD_MOVIE_DETAILS_FAILURE,
-  payload: { error },
-});
+// export const loadMovieDetailsRequest = id => ({
+//   type: types.LOAD_MOVIE_DETAILS_REQUEST,
+//   payload: { id },
+// });
+
+// export const loadMovieDetailsSuccess = movie => ({
+//   type: types.LOAD_MOVIE_DETAILS_SUCCESS,
+//   payload: { movie },
+// });
+
+// export const loadMovieDetailsFailure = error => ({
+//   type: types.LOAD_MOVIE_DETAILS_FAILURE,
+//   payload: { error },
+// });

@@ -1,143 +1,68 @@
-import {delay} from 'redux-saga';
-import {call, put, take, takeLatest, takeEvery, select, fork} from 'redux-saga/effects';
-import {SELECTORS} from '../reducers';
-import * as types from '../actionTypes/actionTypes';
+import {call, put, takeLatest, fork} from 'redux-saga/effects';
 import * as SeriesActions from '../actions/seriesActions';
-import {
-  getSeriesDetailsApi,
-  getSeasonApi,
-  getUserSeriesApi,
-  addSeriesToWatchlistApi,
-  removeSeriesFromWatchlistApi,
-  addEpisodeApi,
-  removeEpisodeApi,
-  getSeasonCollectionApi,
-} from '../api/series';
+import {getSeriesApi, getSeasonApi} from '../api/series';
+import * as Vibrant from 'node-vibrant';
+
+const getPalette = series => {
+  return Vibrant.from(`https://image.tmdb.org/t/p/w1280/${series.details.poster_path}`)
+    .getPalette()
+    .then(palette => {
+      return palette;
+    });
+};
 
 function* tvs() {
-  yield takeLatest(types.LOAD_SERIES_DETAILS, loadSeriesDetailsSaga);
-  yield takeLatest(types.LOAD_SEASON, loadSeasonSaga);
-  yield takeLatest(types.LOAD_SEASON_COLLECTION, loadSeasonCollectionSaga);
-  yield takeLatest(types.LOAD_USER_SERIES, loadUserSeriesSaga);
-  yield takeLatest(SeriesActions.addSeriesToWatchlist, addSeriesToWatchlistSaga);
-  yield takeLatest(SeriesActions.removeSeriesFromWatchlist, removeSeriesFromWatchlistSaga);
-  yield takeLatest(types.ADD_EPISODE, addEpisodeSaga);
-  yield takeLatest(types.REMOVE_EPISODE, removeEpisodeSaga);
+  yield takeLatest(SeriesActions.fetchSeries, fetchSeriesSaga);
+  yield takeLatest(SeriesActions.fetchSeason, fetchSeasonSaga);
+  yield takeLatest(SeriesActions.fetchSeriesWithLatestSeason, fetchSeriesWithLatestSeasonSaga);
 }
 
-function* loadSeriesDetailsSaga({payload: {id}}) {
-  yield fork(loadSeriesDetails, id);
+function* fetchSeriesSaga({payload: {id}}) {
+  yield fork(fetchSeries, id);
 }
 
-function* loadSeasonSaga({payload: {id, seasonNumber}}) {
-  yield fork(loadSeason, id, seasonNumber);
+function* fetchSeasonSaga({payload: {id, seasonNumber}}) {
+  yield fork(fetchSeason, id, seasonNumber);
 }
 
-function* loadSeasonCollectionSaga({payload: {id, seasonNumber}}) {
-  yield fork(loadSeasonCollection, id, seasonNumber);
+function* fetchSeriesWithLatestSeasonSaga({payload: {id}}) {
+  yield fork(fetchSeriesWithLatestSeason, id);
 }
 
-function* addSeriesToWatchlistSaga({payload: {id, name}}) {
-  yield fork(addSeriesToWatchlist, id, name);
-}
-
-function* removeSeriesFromWatchlistSaga({payload: {id}}) {
-  yield fork(removeSeriesFromWatchlist, id);
-}
-
-function* addEpisodeSaga({payload: {id, episodeId}}) {
-  yield fork(addEpisode, id, episodeId);
-}
-
-function* removeEpisodeSaga({payload: {id, episodeId}}) {
-  yield fork(removeEpisode, id, episodeId);
-}
-
-function* loadUserSeriesSaga() {
-  yield put(SeriesActions.loadUserSeriesRequest());
+function* fetchSeries(id) {
+  yield put(SeriesActions.fetchSeries.request(id));
   try {
-    const userSeries = yield call(getUserSeriesApi);
-    yield put(SeriesActions.loadUserSeriesSuccess(userSeries));
+    const series = yield call(getSeriesApi, id);
+    const palette = yield call(getPalette, series);
+
+    yield put(SeriesActions.fetchSeries.success({series, palette}));
   } catch (error) {
     console.log(error);
-    yield put(SeriesActions.loadUserSeriesFailure(error));
+    yield put(SeriesActions.fetchSeries.failure(error));
   }
 }
 
-function* loadSeriesDetails(id) {
-  yield put(SeriesActions.loadSeriesDetailsRequest(id));
-  try {
-    const series = yield call(getSeriesDetailsApi, id);
-    yield put(SeriesActions.loadSeriesDetailsSuccess(series));
-  } catch (error) {
-    console.log(error);
-    yield put(SeriesActions.loadSeriesDetailsFailure(error));
-  }
-}
-
-function* loadSeason(id, seasonNumber) {
-  yield put(SeriesActions.loadSeasonRequest(id, seasonNumber));
+function* fetchSeason(id, seasonNumber) {
+  yield put(SeriesActions.fetchSeason.request(id, seasonNumber));
   try {
     const season = yield call(getSeasonApi, id, seasonNumber);
-    yield put(SeriesActions.loadSeasonSuccess(season));
+    yield put(SeriesActions.fetchSeason.success({season}));
   } catch (error) {
     console.log(error);
-    yield put(SeriesActions.loadSeasonFailure(error));
+    yield put(SeriesActions.fetchSeason.failure(error));
   }
 }
 
-function* loadSeasonCollection(id, seasonNumber) {
-  yield put(SeriesActions.loadSeasonCollectionRequest(id, seasonNumber));
+function* fetchSeriesWithLatestSeason(id) {
+  yield put(SeriesActions.fetchSeriesWithLatestSeason.request(id));
   try {
-    const season = yield call(getSeasonCollectionApi, id, seasonNumber);
-    yield put(SeriesActions.loadSeasonCollectionSuccess(season));
-  } catch (error) {
-    console.log(error);
-    yield put(SeriesActions.loadSeasonCollectionFailure(error));
-  }
-}
+    const series = yield call(getSeriesApi, id);
+    const season = yield call(getSeasonApi, id, series.details.number_of_seasons);
 
-function* addSeriesToWatchlist(id, name) {
-  yield put(SeriesActions.addSeriesToWatchlist.request(id));
-  try {
-    const series = yield call(addSeriesToWatchlistApi, id, name);
-    yield put(SeriesActions.addSeriesToWatchlist.success({series}));
+    yield put(SeriesActions.fetchSeriesWithLatestSeason.success({series, season}));
   } catch (error) {
     console.log(error);
-    yield put(SeriesActions.addSeriesToWatchlist.failure(error));
-  }
-}
-
-function* removeSeriesFromWatchlist(id) {
-  yield put(SeriesActions.removeSeriesFromWatchlist.request(id));
-  try {
-    yield call(removeSeriesFromWatchlistApi, id);
-    yield put(SeriesActions.removeSeriesFromWatchlist.success());
-  } catch (error) {
-    console.log(error);
-    yield put(SeriesActions.removeSeriesFromWatchlist.failure(error));
-  }
-}
-
-function* addEpisode(id, episodeId) {
-  yield put(SeriesActions.addEpisodeRequest(id));
-  try {
-    const episode = yield call(addEpisodeApi, id, episodeId);
-    yield put(SeriesActions.addEpisodeSuccess(episode));
-  } catch (error) {
-    console.log(error);
-    yield put(SeriesActions.addEpisodeFailure(error));
-  }
-}
-
-function* removeEpisode(id, episodeId) {
-  yield put(SeriesActions.removeEpisodeRequest(id));
-  try {
-    const episode = yield call(removeEpisodeApi, id, episodeId);
-    yield put(SeriesActions.removeEpisodeSuccess(episode));
-  } catch (error) {
-    console.log(error);
-    yield put(SeriesActions.removeEpisodeFailure(error));
+    yield put(SeriesActions.fetchSeriesWithLatestSeason.failure(error));
   }
 }
 

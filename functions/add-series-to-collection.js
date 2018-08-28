@@ -1,26 +1,27 @@
 var MongoClient = require('mongodb').MongoClient;
+import connectToDatabase from './utils/connect-db';
 
 const MONGODB_URI = `mongodb+srv://thomasw:${encodeURIComponent(
   'Mac173173'
 )}@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
-let cachedDb = null;
+// let cachedDb = null;
 
-function connectToDatabase(uri) {
-  console.log('=> connect to database');
+// function connectToDatabase(uri) {
+//   console.log('=> connect to database');
 
-  if (cachedDb) {
-    console.log('=> using cached database instance');
-    return Promise.resolve(cachedDb);
-  }
+//   if (cachedDb) {
+//     console.log('=> using cached database instance');
+//     return Promise.resolve(cachedDb);
+//   }
 
-  return MongoClient.connect(
-    uri,
-    {useNewUrlParser: true}
-  ).then(database => {
-    cachedDb = database.db('test');
-    return cachedDb;
-  });
-}
+//   return MongoClient.connect(
+//     uri,
+//     {useNewUrlParser: true}
+//   ).then(database => {
+//     cachedDb = database.db('test');
+//     return cachedDb;
+//   });
+// }
 
 function queryDatabase(db, user, payload) {
   console.log('=> query database');

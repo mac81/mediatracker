@@ -1,8 +1,8 @@
 import {put, takeLatest, fork} from 'redux-saga/effects';
 import * as types from '../actionTypes/actionTypes';
 import {matchPath} from 'react-router-dom';
-import * as seriesActions from '../actions/seriesActions';
-import * as movieActions from '../actions/movieActions';
+import * as SeriesActions from '../actions/seriesActions';
+import * as MovieActions from '../actions/movieActions';
 import * as CollectionActions from '../actions/collectionActions';
 
 function* navigation() {
@@ -10,66 +10,48 @@ function* navigation() {
 }
 
 function* routeChange(pathname) {
+  const seriesMatch = matchPath(pathname, {
+    path: `/tv/:id`,
+    exact: true,
+  });
+  if (seriesMatch) {
+    yield put(SeriesActions.fetchSeries({id: seriesMatch.params.id}));
+    return;
+  }
+
   const seasonMatch = matchPath(pathname, {
     path: `/tv/:id/season/:seasonNumber`,
   });
   if (seasonMatch) {
-    yield put(seriesActions.loadSeriesDetails(seasonMatch.params.id));
-    yield put(seriesActions.loadSeason(seasonMatch.params.id, seasonMatch.params.seasonNumber));
+    yield put(SeriesActions.fetchSeries({id: seasonMatch.params.id}));
+    yield put(SeriesActions.fetchSeason({id: seasonMatch.params.id, seasonNumber: seasonMatch.params.seasonNumber}));
     return;
   }
 
-  const tvDetailsMatch = matchPath(pathname, {
-    path: `/tv/:id`,
-  });
-  if (tvDetailsMatch) {
-    yield put(seriesActions.loadSeriesDetails(tvDetailsMatch.params.id));
-    return;
-  }
-
-  const allUserSeriesMatch = matchPath(pathname, {
-    path: `/collection/series`,
-    exact: true,
-  });
-  if (allUserSeriesMatch) {
-    yield put(seriesActions.loadUserSeries());
-    return;
-  }
-
-  const userSeriesMatch = matchPath(pathname, {
-    path: `/collection/series/:id`,
-    exact: true,
-  });
-  if (userSeriesMatch) {
-    yield put(seriesActions.loadSeriesDetails(userSeriesMatch.params.id));
-    yield put(seriesActions.loadSeason(userSeriesMatch.params.id, 1));
-    return;
-  }
-
-  const collectionSeasonMatch = matchPath(pathname, {
-    path: `/collection/series/:id/season/:seasonId`,
-  });
-  if (collectionSeasonMatch) {
-    yield put(seriesActions.loadSeriesDetails(collectionSeasonMatch.params.id));
-    yield put(
-      seriesActions.loadSeasonCollection(collectionSeasonMatch.params.id, collectionSeasonMatch.params.seasonId)
-    );
-    return;
-  }
-
-  const MovieDetailsMatch = matchPath(pathname, {
+  const movieMatch = matchPath(pathname, {
     path: `/movie/:id`,
   });
-  if (MovieDetailsMatch) {
-    yield put(movieActions.loadMovieDetails(MovieDetailsMatch.params.id));
+  if (movieMatch) {
+    yield put(MovieActions.fetchMovie({id: movieMatch.params.id}));
     return;
   }
 
   const collectionMatch = matchPath(pathname, {
     path: `/collection`,
+    exact: true,
   });
   if (collectionMatch) {
     yield put(CollectionActions.fetchUserCollection());
+    return;
+  }
+
+  const collectionSeriesMatch = matchPath(pathname, {
+    path: `/collection/:id`,
+    exact: true,
+  });
+  if (collectionSeriesMatch) {
+    yield put(CollectionActions.fetchUserCollection());
+    yield put(SeriesActions.fetchSeriesWithLatestSeason({id: collectionSeriesMatch.params.id}));
     return;
   }
 }

@@ -7,30 +7,39 @@ import styled from 'styled-components';
 import {font, color} from '../styles/typography';
 import {Link} from 'react-router-dom';
 
-const StyledUserCollection = styled.div``;
+const StyledCollectionSeries = styled.div``;
 
-class UserCollection extends React.Component {
+class CollectionSeries extends React.Component {
   render() {
-    const {userCollection} = this.props;
+    const {season} = this.props;
+
+    if (!season) return null;
 
     return (
-      <ul>
-        {userCollection.series &&
-          userCollection.series.map(series => (
-            <li>
-              <Link to={`tv/${series.id}`}>{series.name}</Link>
-            </li>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {season.episodes.map(episode => (
+            <tr>
+              <td>{episode.name}</td>
+            </tr>
           ))}
-      </ul>
+        </tbody>
+      </table>
     );
   }
 }
 
 const mapStateToProps = state => ({
   userCollection: SELECTORS.COLLECTION.getUserCollection(state),
+  season: SELECTORS.SERIES.getSeason(state),
 });
 
 export default connect(
   mapStateToProps,
   undefined
-)(UserCollection);
+)(CollectionSeries);

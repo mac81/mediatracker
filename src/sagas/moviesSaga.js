@@ -1,26 +1,23 @@
-import { delay } from 'redux-saga';
-import { call, put, take, takeLatest, takeEvery, select, fork } from 'redux-saga/effects';
-import { SELECTORS } from '../reducers';
-import * as types from '../actionTypes/actionTypes';
+import {call, put, takeLatest, fork} from 'redux-saga/effects';
 import * as MovieActions from '../actions/movieActions';
-import { getMovieDetailsApi } from '../api/movie';
+import {getMovieApi} from '../api/movie';
 
 function* movies() {
-  yield takeLatest(types.LOAD_MOVIE_DETAILS, loadMovieDetailsSaga);
+  yield takeLatest(MovieActions.fetchMovie, fetchMovieSaga);
 }
 
-function* loadMovieDetailsSaga({ payload: { id } }) {
-  yield fork(loadMovieDetails, id);
+function* fetchMovieSaga({payload: {id}}) {
+  yield fork(fetchMovie, id);
 }
 
-function* loadMovieDetails(id) {
-  yield put(MovieActions.loadMovieDetailsRequest(id));
+function* fetchMovie(id) {
+  yield put(MovieActions.fetchMovie.request(id));
   try {
-    const movie = yield call(getMovieDetailsApi, id);
-    yield put(MovieActions.loadMovieDetailsSuccess(movie));
+    const movie = yield call(getMovieApi, id);
+    yield put(MovieActions.fetchMovie.success({movie}));
   } catch (error) {
     console.log(error);
-    yield put(MovieActions.loadMovieDetailsFailure(error));
+    yield put(MovieActions.fetchMovie.failure(error));
   }
 }
 

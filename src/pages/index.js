@@ -1,8 +1,7 @@
-import AllSeriesCollection from './AllSeriesCollection';
-import SeriesCollection from './SeriesCollection';
-import Login from './Login';
 import SeriesOverview from './series/Overview';
 import Season from './series/Season';
-import UserCollection from './UserCollection';
+import Movie from './Movie';
+import Collection from './Collection';
+import CollectionSeries from './CollectionSeries';
 
-export {AllSeriesCollection, SeriesCollection, Login, SeriesOverview, Season, UserCollection};
+export {SeriesOverview, Season, Movie, Collection, CollectionSeries};

@@ -1,11 +1,10 @@
 import createReducer from '../utils/createReducer';
-import * as types from '../actionTypes/actionTypes';
-import arrayToObject from '../utils/arrayToObject';
+import * as UserActions from '../actions/userActions';
 
 const initialState = {};
 
 export default createReducer(initialState, {
-  [types.SET_USER]: (state, {payload: {user}}) => ({
+  [UserActions.setUser]: (state, {payload: {user}}) => ({
     ...state,
     user,
   }),

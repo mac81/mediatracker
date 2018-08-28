@@ -1,12 +1,12 @@
 import fetch from 'node-fetch';
-//import * as Vibrant from 'node-vibrant';
+import * as Vibrant from 'node-vibrant';
 
 import {config} from '../config';
 
 exports.handler = (event, context, callback) => {
   const {apiRoot, apiKey, apiLanguage} = config;
 
-  fetch(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`)
+  fetch(`${apiRoot}movie/${event.queryStringParameters.id}?api_key=${apiKey}`)
     .then(res => res.json())
     .then(json => {
       // Vibrant.from(`https://image.tmdb.org/t/p/w1280/${json.poster_path}`).getPalette((err, palette) => {
@@ -20,7 +20,7 @@ exports.handler = (event, context, callback) => {
       })
         .then(response => response.json())
         .then(collection => {
-          const inCollection = Boolean(collection.series.find(series => series.id === json.id));
+          const inCollection = Boolean(collection.movies && collection.movies.find(series => series.id === json.id));
 
           return callback(null, {
             statusCode: 200,

@@ -16,19 +16,23 @@ const StyledUserMenu = styled.div`
 `;
 class UserMenu extends Component {
   render() {
-    const {user, userSignup} = this.props;
+    const {user, login, signup, logout} = this.props;
 
     return (
       <StyledUserMenu>
-        <div className="avatar">
-          <svg viewBox="0 0 24 24">
-            <path
-              fill="#ffffff"
-              d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
-            />
-          </svg>
-        </div>
-        {!user && <button onClick={userSignup}>Signup</button>}
+        {/*user && (
+          <div className="avatar">
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="#ffffff"
+                d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+              />
+            </svg>
+          </div>
+        )*/}
+        {user && <button onClick={logout}>Logout</button>}
+        {!user && <button onClick={login}>Login</button>}
+        {!user && <button onClick={signup}>Signup</button>}
       </StyledUserMenu>
     );
   }

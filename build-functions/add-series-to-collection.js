@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 628);
+/******/ 	return __webpack_require__(__webpack_require__.s = 624);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -35377,36 +35377,48 @@ module.exports.Decimal128 = Decimal128;
 
 /***/ }),
 
-/***/ 628:
+/***/ 624:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _connectDb = __webpack_require__(631);
+
+var _connectDb2 = _interopRequireDefault(_connectDb);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var MongoClient = __webpack_require__(200).MongoClient;
 
-const MONGODB_URI = `mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
-let cachedDb = null;
 
-function connectToDatabase(uri) {
-  console.log('=> connect to database');
+const MONGODB_URI = `mongodb+srv://thomasw:${encodeURIComponent('Mac173173')}@watchit-3nncd.mongodb.net/test?retryWrites=true`; // or Atlas connection string
+// let cachedDb = null;
 
-  if (cachedDb) {
-    console.log('=> using cached database instance');
-    return Promise.resolve(cachedDb);
-  }
+// function connectToDatabase(uri) {
+//   console.log('=> connect to database');
 
-  return MongoClient.connect(uri, { useNewUrlParser: true }).then(database => {
-    cachedDb = database.db('test');
-    return cachedDb;
-  });
-}
+//   if (cachedDb) {
+//     console.log('=> using cached database instance');
+//     return Promise.resolve(cachedDb);
+//   }
 
-function queryDatabase(db, user) {
+//   return MongoClient.connect(
+//     uri,
+//     {useNewUrlParser: true}
+//   ).then(database => {
+//     cachedDb = database.db('test');
+//     return cachedDb;
+//   });
+// }
+
+function queryDatabase(db, user, payload) {
   console.log('=> query database');
 
-  return db.collection('users').findOne({ userId: user.exp }).then(user => {
-    return { statusCode: 200, body: JSON.stringify({ series: user.series }) };
+  const { id, name } = payload;
+
+  return db.collection('users').updateOne({ userId: user.exp }, { $set: { userId: user.exp }, $addToSet: { series: { id, name } } }, { upsert: true }).then(() => {
+    return { statusCode: 200, body: JSON.stringify({ id, name }) };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };
@@ -35420,7 +35432,9 @@ exports.handler = (event, context, callback) => {
     exp: 1
   };
 
-  connectToDatabase(MONGODB_URI).then(db => queryDatabase(db, user)).then(result => {
+  const payload = JSON.parse(event.body);
+
+  (0, _connectDb2.default)(MONGODB_URI).then(db => queryDatabase(db, user, payload)).then(result => {
     console.log('=> returning result: ', result);
     callback(null, result);
   }).catch(err => {
@@ -35449,6 +35463,36 @@ function MaxKey() {
 module.exports = MaxKey;
 module.exports.MaxKey = MaxKey;
 
+
+/***/ }),
+
+/***/ 631:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = connectToDatabase;
+var MongoClient = __webpack_require__(200).MongoClient;
+
+let cachedDb = null;
+
+function connectToDatabase(uri) {
+  console.log('=> connect to database');
+
+  if (cachedDb) {
+    console.log('=> using cached database instance');
+    return Promise.resolve(cachedDb);
+  }
+
+  return MongoClient.connect(uri, { useNewUrlParser: true }).then(database => {
+    cachedDb = database.db('test');
+    return cachedDb;
+  });
+}
 
 /***/ }),
 

@@ -2,63 +2,55 @@ import createReducer from '../utils/createReducer';
 import * as types from '../actionTypes/actionTypes';
 import arrayToObject from '../utils/arrayToObject';
 import * as SeriesActions from '../actions/seriesActions';
+import * as CollectionActions from '../actions/collectionActions';
 
-const initialState = {
-  userSeries: [],
-};
+const initialState = {};
 
 export default createReducer(initialState, {
-  [types.LOAD_SERIES_DETAILS]: state => ({
-    ...state,
-  }),
-  [types.LOAD_SERIES_DETAILS_REQUEST]: state => ({
+  [SeriesActions.fetchSeries.request]: state => ({
     ...state,
     isLoading: true,
   }),
-  [types.LOAD_SERIES_DETAILS_SUCCESS]: (state, {payload: {series}}) => ({
+  [SeriesActions.fetchSeries.success]: (state, {payload: {series, palette}}) => ({
     ...state,
     isLoading: false,
     details: series.details,
-    isAddedToWatchlist: series.isAddedToWatchlist,
+    palette,
   }),
-  [types.LOAD_SEASON]: state => ({
-    ...state,
-  }),
-  [types.LOAD_SEASON_REQUEST]: state => ({
+  [SeriesActions.fetchSeason.request]: state => ({
     ...state,
     isLoading: true,
   }),
-  [types.LOAD_SEASON_SUCCESS]: (state, {payload: {season}}) => ({
+  [SeriesActions.fetchSeason.success]: (state, {payload: {season}}) => ({
     ...state,
     isLoading: false,
     season,
   }),
-  [types.LOAD_SEASON_COLLECTION_SUCCESS]: (state, {payload: {season}}) => ({
+  [SeriesActions.fetchSeriesWithLatestSeason.success]: (state, {payload: {series, season}}) => ({
     ...state,
     isLoading: false,
-    season: season,
+    details: series.details,
+    season,
   }),
-  [types.LOAD_USER_SERIES_SUCCESS]: (state, {payload: {userSeries}}) => ({
+  [CollectionActions.addSeriesToCollection.success]: state => ({
     ...state,
-    userSeries: arrayToObject(userSeries),
+    details: {
+      ...state.details,
+      isInCollection: true,
+    },
   }),
-  [SeriesActions.addSeriesToWatchlist.success]: (state, {payload: {series}}) => ({
+  [CollectionActions.removeSeriesFromCollection.success]: state => ({
     ...state,
-    isAddedToWatchlist: true,
-    userSeries: [...state.userSeries, series.id],
-  }),
-  [types.REMOVE_FROM_WATCHLIST_SUCCESS]: (state, {payload: {userSeries}}) => ({
-    ...state,
-    isAddedToWatchlist: false,
+    details: {
+      ...state.details,
+      isInCollection: false,
+    },
   }),
 });
 
 export const SELECTORS = {
   getSeriesDetails: state => state.details,
-  getAllSeriesCollection: state => state.userSeries,
-  getUserSeries: (state, id) => state.userSeries[id],
   getSeason: state => state.season,
-  getTrackedEpisodes: state => state.season && state.season.episodes,
+  getPalette: state => state.palette,
   getIsLoading: state => state.isLoading,
-  getIsAddedToWatchlist: state => state.isAddedToWatchlist,
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {SELECTORS} from '../reducers';
-import {addSeriesToWatchlist, removeSeriesFromWatchlist} from '../actions/seriesActions';
+import * as CollectionActions from '../actions/collectionActions';
 
 import styled from 'styled-components';
 import {font, color} from '../styles/typography';
@@ -28,16 +28,16 @@ const StyledHero = styled.div`
     background-image: radial-gradient(
       circle at 20% 50%,
       rgba(
-          ${props => props.swatch && props.swatch.DarkVibrant._rgb[0]},
-          ${props => props.swatch && props.swatch.DarkVibrant._rgb[1]},
-          ${props => props.swatch && props.swatch.DarkVibrant._rgb[2]},
+          ${props => props.palette && props.palette.DarkVibrant._rgb[0]},
+          ${props => props.palette && props.palette.DarkVibrant._rgb[1]},
+          ${props => props.palette && props.palette.DarkVibrant._rgb[2]},
           0.94
         )
         0%,
       rgba(
-          ${props => props.swatch && Math.round(props.swatch.DarkMuted._rgb[0])},
-          ${props => props.swatch && Math.round(props.swatch.DarkMuted._rgb[1])},
-          ${props => props.swatch && Math.round(props.swatch.DarkMuted._rgb[2])},
+          ${props => props.palette && Math.round(props.palette.DarkMuted._rgb[0])},
+          ${props => props.palette && Math.round(props.palette.DarkMuted._rgb[1])},
+          ${props => props.palette && Math.round(props.palette.DarkMuted._rgb[2])},
           0.94
         )
         100%
@@ -91,35 +91,33 @@ class Hero extends React.Component {
 
   addToWatchlist() {
     const {
-      addSeriesToWatchlist,
+      addSeriesToCollection,
       details: {id, name},
     } = this.props;
 
-    addSeriesToWatchlist({id, name});
+    addSeriesToCollection({id, name});
   }
 
   removeFromWatchlist() {
     const {
-      removeSeriesFromWatchlist,
+      removeSeriesFromCollection,
       details: {id},
     } = this.props;
 
-    removeSeriesFromWatchlist({id});
+    removeSeriesFromCollection({id});
   }
 
   render() {
-    const {user, details, isAddedToWatchlist, isSeriesInCollection} = this.props;
+    const {user, details, palette} = this.props;
 
     if (!details) {
       return null;
     }
 
-    console.log('isSeriesInCollection: ', isSeriesInCollection);
-
     const releaseYear = new Date(details.release_date || details.first_air_date).getFullYear();
 
     return (
-      <StyledHero image={`https://image.tmdb.org/t/p/w1280/${details.backdrop_path}`} swatch={details.swatch}>
+      <StyledHero image={`https://image.tmdb.org/t/p/w1280/${details.backdrop_path}`} palette={palette}>
         <div className="background-image">
           <div className="hero-overlay" />
         </div>
@@ -134,18 +132,13 @@ class Hero extends React.Component {
               </h2>
             </div>
             {user &&
-              (!isSeriesInCollection ? (
+              (!details.isInCollection ? (
                 <button onClick={this.addToWatchlist}>Add to watchlist</button>
               ) : (
                 <button onClick={this.removeFromWatchlist}>Remove from watchlist</button>
               ))}
-            <ScoreChart score={details.vote_average} swatch={details.swatch} />
+            <ScoreChart score={details.vote_average} />
             <div className="hero-overview">{details.overview}</div>
-            {/*isAddedToWatchlist ? (
-              <button onClick={this.removeFromWatchlist}>Remove from watchlist</button>
-            ) : (
-              <button onClick={this.addToWatchlist}>Add to watchlist</button>
-            )*/}
           </div>
         </div>
       </StyledHero>
@@ -153,17 +146,13 @@ class Hero extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   user: SELECTORS.USER.getUser(state),
-  details: SELECTORS.SERIES.getSeriesDetails(state),
-  isAddedToWatchlist: SELECTORS.SERIES.getIsAddedToWatchlist(state),
-  isSeriesInCollection: SELECTORS.COLLECTION.getIsSeriesInCollection(state, 48866),
+  details: props.type === 'movie' ? SELECTORS.MOVIE.getMovieDetails(state) : SELECTORS.SERIES.getSeriesDetails(state),
+  palette: SELECTORS.SERIES.getPalette(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  addSeriesToWatchlist: bindActionCreators(addSeriesToWatchlist, dispatch),
-  removeSeriesFromWatchlist: bindActionCreators(removeSeriesFromWatchlist, dispatch),
-});
+const mapDispatchToProps = dispatch => bindActionCreators(CollectionActions, dispatch);
 
 export default connect(
   mapStateToProps,
