@@ -42424,11 +42424,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 const getUser = exports.getUser = context => {
-  const user = context.clientContext ? context.clientContext.user : { exp: 1 };
-
-  console.log('Context: ', context);
-  console.log('ClientContext: ', context.clientContext);
-  console.log('User: ', context.clientContext.user);
+  const user = context.clientContext ? context.clientContext.user : { email: 'test@test.no' };
 
   return user;
 };
@@ -42480,8 +42476,9 @@ Object.defineProperty(exports, "__esModule", {
 const getUserCollection = (db, user) => {
   console.log('=> query database');
 
-  return db.collection('users').findOne({ userId: user.exp }).then(user => {
-    return { statusCode: 200, body: JSON.stringify({ series: user.series }) };
+  return db.collection('users').findOne({ userId: user.email }).then(user => {
+    const series = user ? user.series : [];
+    return { statusCode: 200, body: JSON.stringify({ series: series }) };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };

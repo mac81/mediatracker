@@ -42424,11 +42424,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 const getUser = exports.getUser = context => {
-  const user = context.clientContext ? context.clientContext.user : { exp: 1 };
-
-  console.log('Context: ', context);
-  console.log('ClientContext: ', context.clientContext);
-  console.log('User: ', context.clientContext.user);
+  const user = context.clientContext ? context.clientContext.user : { email: 'test@test.no' };
 
   return user;
 };
@@ -42494,7 +42490,7 @@ const queryDatabase = (db, user, payload) => {
 
   const { seriesId, episodeId } = payload;
 
-  return db.collection('users').updateOne({ userId: user.exp, 'series.id': seriesId }, {
+  return db.collection('users').updateOne({ userId: user.email, 'series.id': seriesId }, {
     $pull: {
       'series.$.episodes': episodeId
     }

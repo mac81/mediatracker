@@ -9,7 +9,7 @@ const queryDatabase = (db, user, payload) => {
   return db
     .collection('users')
     .updateOne(
-      {userId: user.exp, 'series.id': seriesId},
+      {userId: user.email, 'series.id': seriesId},
       {
         $addToSet: {
           'series.$.episodes': episodeId,

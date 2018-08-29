@@ -3,9 +3,10 @@ const getUserCollection = (db, user) => {
 
   return db
     .collection('users')
-    .findOne({userId: user.exp})
+    .findOne({userId: user.email})
     .then(user => {
-      return {statusCode: 200, body: JSON.stringify({series: user.series})};
+      const series = user ? user.series : [];
+      return {statusCode: 200, body: JSON.stringify({series: series})};
     })
     .catch(err => {
       console.log('=> an error occurred: ', err);

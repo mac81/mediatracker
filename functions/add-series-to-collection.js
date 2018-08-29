@@ -8,7 +8,7 @@ const queryDatabase = (db, user, payload) => {
 
   return db
     .collection('users')
-    .updateOne({userId: user.exp}, {$set: {userId: user.exp}, $addToSet: {series: {id, name}}}, {upsert: true})
+    .updateOne({userId: user.email}, {$set: {userId: user.email}, $addToSet: {series: {id, name}}}, {upsert: true})
     .then(() => {
       return {statusCode: 200, body: JSON.stringify({id, name})};
     })
