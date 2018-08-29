@@ -33,7 +33,7 @@
     "start:app": "react-scripts start",
     "start:server": "netlify-lambda serve functions",
     "build": "npm-run-all --parallel build:app build:functions",
-    "build:app": "react-scripts build",
+    "build:app": "react-scripts build && echo '/*    /index.html   200' > build/_redirects",
     "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
