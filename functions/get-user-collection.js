@@ -1,4 +1,5 @@
 import connectToDatabase from './utils/connect-db';
+import {getUser} from './utils/get-user';
 
 const queryDatabase = (db, user) => {
   console.log('=> query database');
@@ -17,10 +18,8 @@ const queryDatabase = (db, user) => {
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  //const {user} = context && context.clientContext;
-  const user = {
-    exp: 1,
-  };
+
+  const user = getUser(context);
 
   connectToDatabase()
     .then(db => queryDatabase(db, user))

@@ -42446,7 +42446,24 @@ function checkAborted(_this, callback) {
 /* 142 */,
 /* 143 */,
 /* 144 */,
-/* 145 */,
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const getUser = exports.getUser = context => {
+  //console.log(context.clientContext);
+  //const {user} = context && context.clientContext;
+  return context.clientContext || {
+    exp: 1
+  };
+};
+
+/***/ }),
 /* 146 */,
 /* 147 */,
 /* 148 */,
@@ -42461,6 +42478,8 @@ function checkAborted(_this, callback) {
 var _connectDb = __webpack_require__(77);
 
 var _connectDb2 = _interopRequireDefault(_connectDb);
+
+var _getUser = __webpack_require__(145);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42477,10 +42496,8 @@ const queryDatabase = (db, user) => {
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  //const {user} = context && context.clientContext;
-  const user = {
-    exp: 1
-  };
+
+  const user = (0, _getUser.getUser)(context);
 
   (0, _connectDb2.default)().then(db => queryDatabase(db, user)).then(result => {
     console.log('=> returning result: ', result);
