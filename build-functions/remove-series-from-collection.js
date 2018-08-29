@@ -42425,6 +42425,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 const getUser = exports.getUser = context => {
   const user = context.clientContext ? context.clientContext.user : { exp: 1 };
+
+  console.log('Context: ', context);
+  console.log('ClientContext: ', context.clientContext);
+  console.log('User: ', context.clientContext.user);
+
   return user;
 };
 
