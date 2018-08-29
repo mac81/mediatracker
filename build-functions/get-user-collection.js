@@ -42418,7 +42418,26 @@ function checkAborted(_this, callback) {
 
 
 /***/ }),
-/* 117 */,
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const getUser = exports.getUser = context => {
+  //console.log(context.clientContext);
+  //const {user} = context && context.clientContext;
+  return context && context.clientContext || {
+    exp: 1
+  };
+};
+
+exports.default = getUser;
+
+/***/ }),
 /* 118 */,
 /* 119 */,
 /* 120 */,
@@ -42446,24 +42465,7 @@ function checkAborted(_this, callback) {
 /* 142 */,
 /* 143 */,
 /* 144 */,
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-const getUser = exports.getUser = context => {
-  //console.log(context.clientContext);
-  //const {user} = context && context.clientContext;
-  return context && context.clientContext || {
-    exp: 1
-  };
-};
-
-/***/ }),
+/* 145 */,
 /* 146 */,
 /* 147 */,
 /* 148 */,
@@ -42479,11 +42481,44 @@ var _connectDb = __webpack_require__(77);
 
 var _connectDb2 = _interopRequireDefault(_connectDb);
 
-var _getUser = __webpack_require__(145);
+var _getUserCollection = __webpack_require__(155);
+
+var _getUserCollection2 = _interopRequireDefault(_getUserCollection);
+
+var _getUser = __webpack_require__(117);
+
+var _getUser2 = _interopRequireDefault(_getUser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const queryDatabase = (db, user) => {
+exports.handler = (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  const user = (0, _getUser2.default)(context);
+
+  (0, _connectDb2.default)().then(db => (0, _getUserCollection2.default)(db, user)).then(result => {
+    console.log('=> returning result: ', result);
+    callback(null, result);
+  }).catch(err => {
+    console.log('=> an error occurred: ', err);
+    callback(err);
+  });
+};
+
+/***/ }),
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const getUserCollection = (db, user) => {
   console.log('=> query database');
 
   return db.collection('users').findOne({ userId: user.exp }).then(user => {
@@ -42494,19 +42529,7 @@ const queryDatabase = (db, user) => {
   });
 };
 
-exports.handler = (event, context, callback) => {
-  context.callbackWaitsForEmptyEventLoop = false;
-
-  const user = (0, _getUser.getUser)(context);
-
-  (0, _connectDb2.default)().then(db => queryDatabase(db, user)).then(result => {
-    console.log('=> returning result: ', result);
-    callback(null, result);
-  }).catch(err => {
-    console.log('=> an error occurred: ', err);
-    callback(err);
-  });
-};
+exports.default = getUserCollection;
 
 /***/ })
 /******/ ])));

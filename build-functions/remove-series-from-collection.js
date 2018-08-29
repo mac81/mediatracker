@@ -42418,7 +42418,26 @@ function checkAborted(_this, callback) {
 
 
 /***/ }),
-/* 117 */,
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const getUser = exports.getUser = context => {
+  //console.log(context.clientContext);
+  //const {user} = context && context.clientContext;
+  return context && context.clientContext || {
+    exp: 1
+  };
+};
+
+exports.default = getUser;
+
+/***/ }),
 /* 118 */,
 /* 119 */,
 /* 120 */,
@@ -42446,24 +42465,7 @@ function checkAborted(_this, callback) {
 /* 142 */,
 /* 143 */,
 /* 144 */,
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-const getUser = exports.getUser = context => {
-  //console.log(context.clientContext);
-  //const {user} = context && context.clientContext;
-  return context && context.clientContext || {
-    exp: 1
-  };
-};
-
-/***/ }),
+/* 145 */,
 /* 146 */,
 /* 147 */,
 /* 148 */,
@@ -42481,7 +42483,7 @@ var _connectDb = __webpack_require__(77);
 
 var _connectDb2 = _interopRequireDefault(_connectDb);
 
-var _getUser = __webpack_require__(145);
+var _getUser = __webpack_require__(117);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
