@@ -34,7 +34,7 @@
     "start:server": "netlify-lambda serve functions",
     "build": "npm-run-all --parallel build:app build:functions",
     "build:app": "react-scripts build",
-    "build:functions": "NODE_ENV=test netlify-lambda build functions",
+    "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
