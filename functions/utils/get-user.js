@@ -1,11 +1,6 @@
 export const getUser = context => {
-  //console.log(context.clientContext);
-  //const {user} = context && context.clientContext;
-  return (
-    (context && context.clientContext) || {
-      exp: 1,
-    }
-  );
+  const user = context.clientContext ? context.clientContext.user : {exp: 1};
+  return user;
 };
 
 export default getUser;
