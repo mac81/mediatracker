@@ -57,9 +57,10 @@ function* fetchSeriesWithLatestSeason(id) {
   yield put(SeriesActions.fetchSeriesWithLatestSeason.request(id));
   try {
     const series = yield call(getSeriesApi, id);
+    const palette = yield call(getPalette, series);
     const season = yield call(getSeasonApi, id, series.details.number_of_seasons);
 
-    yield put(SeriesActions.fetchSeriesWithLatestSeason.success({series, season}));
+    yield put(SeriesActions.fetchSeriesWithLatestSeason.success({series, palette, season}));
   } catch (error) {
     console.log(error);
     yield put(SeriesActions.fetchSeriesWithLatestSeason.failure(error));

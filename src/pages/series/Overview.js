@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import {font, color} from '../../styles/typography';
 import Seasons from '../../components/Seasons';
 import Hero from '../../components/Hero';
-import Loader from '../../components/Loader';
 import Facts from '../../components/Facts';
+import Loader from '../../components/Loader';
 
-import posed, {PoseGroup} from 'react-pose';
+import {Page} from '../';
 
 const StyledOverview = styled.div`
   display: flex;
@@ -36,16 +36,6 @@ const StyledOverview = styled.div`
     max-width: 100%;
   }
 `;
-
-const Page = posed.div({
-  enter: {
-    opacity: 1,
-  },
-  exit: {
-    opacity: 0,
-  },
-});
-
 class Overview extends React.Component {
   render() {
     const {isLoading, details} = this.props;
@@ -57,28 +47,26 @@ class Overview extends React.Component {
     if (!details) return null;
 
     return (
-      <PoseGroup animateOnMount>
-        <Page className="page" key="overview">
-          <Hero />
-          <div className="container">
-            <StyledOverview>
-              <div className="sidebar">
-                <Facts details={details} />
-              </div>
-              <div className="content">
-                <Seasons seasons={details.seasons} />
-              </div>
-            </StyledOverview>
-          </div>
-        </Page>
-      </PoseGroup>
+      <Page key="series">
+        <Hero />
+        <div className="container">
+          <StyledOverview>
+            <div className="sidebar">
+              <Facts details={details} />
+            </div>
+            <div className="content">
+              <Seasons seasons={details.seasons} />
+            </div>
+          </StyledOverview>
+        </div>
+      </Page>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  details: SELECTORS.SERIES.getSeriesDetails(state),
   isLoading: SELECTORS.SERIES.getIsLoading(state),
+  details: SELECTORS.SERIES.getSeriesDetails(state),
 });
 
 export default connect(

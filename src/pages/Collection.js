@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import {font, color} from '../styles/typography';
 import {Link} from 'react-router-dom';
 
+import {Page} from './';
+
 const StyledCollection = styled.div``;
 
 class Collection extends React.Component {
@@ -14,14 +16,17 @@ class Collection extends React.Component {
     const {userCollection} = this.props;
 
     return (
-      <ul>
-        {userCollection.series &&
-          userCollection.series.map(series => (
-            <li>
-              <Link to={`collection/${series.id}`}>{series.name}</Link>
-            </li>
-          ))}
-      </ul>
+      <Page key="collection">
+        <ul>
+          {userCollection.series &&
+            userCollection.series.map(series => (
+              <li>
+                {series.episode_count}
+                <Link to={`collection/${series.id}`}>{series.name}</Link>
+              </li>
+            ))}
+        </ul>
+      </Page>
     );
   }
 }

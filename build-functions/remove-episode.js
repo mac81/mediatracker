@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 147);
+/******/ 	return __webpack_require__(__webpack_require__.s = 152);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -42446,9 +42446,31 @@ function checkAborted(_this, callback) {
 /* 142 */,
 /* 143 */,
 /* 144 */,
-/* 145 */,
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const getUser = exports.getUser = context => {
+  //console.log(context.clientContext);
+  //const {user} = context && context.clientContext;
+  return context.clientContext || {
+    exp: 1
+  };
+};
+
+/***/ }),
 /* 146 */,
-/* 147 */
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42458,15 +42480,21 @@ var _connectDb = __webpack_require__(77);
 
 var _connectDb2 = _interopRequireDefault(_connectDb);
 
+var _getUser = __webpack_require__(145);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const queryDatabase = (db, user, payload) => {
   console.log('=> query database');
 
-  const { id, name } = payload;
+  const { seriesId, episodeId } = payload;
 
-  return db.collection('users').updateOne({ userId: user.exp }, { $set: { userId: user.exp }, $addToSet: { series: { id, name } } }, { upsert: true }).then(() => {
-    return { statusCode: 200, body: JSON.stringify({ id, name }) };
+  return db.collection('users').updateOne({ userId: user.exp, 'series.id': seriesId }, {
+    $pull: {
+      'series.$.episodes': episodeId
+    }
+  }).then(() => {
+    return { statusCode: 200, body: JSON.stringify({ episodeId }) };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };
@@ -42475,10 +42503,8 @@ const queryDatabase = (db, user, payload) => {
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  //const {user} = context && context.clientContext;
-  const user = {
-    exp: 1
-  };
+
+  const user = (0, _getUser.getUser)(context);
 
   const payload = JSON.parse(event.body);
 

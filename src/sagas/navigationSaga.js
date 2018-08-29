@@ -54,6 +54,22 @@ function* routeChange(pathname) {
     yield put(SeriesActions.fetchSeriesWithLatestSeason({id: collectionSeriesMatch.params.id}));
     return;
   }
+
+  const collectionSeasonMatch = matchPath(pathname, {
+    path: `/collection/:id/season/:seasonNumber`,
+    exact: true,
+  });
+  if (collectionSeasonMatch) {
+    yield put(CollectionActions.fetchUserCollection());
+    yield put(SeriesActions.fetchSeries({id: collectionSeasonMatch.params.id}));
+    yield put(
+      SeriesActions.fetchSeason({
+        id: collectionSeasonMatch.params.id,
+        seasonNumber: collectionSeasonMatch.params.seasonNumber,
+      })
+    );
+    return;
+  }
 }
 
 function* routeChangeSaga({

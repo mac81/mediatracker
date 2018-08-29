@@ -44,7 +44,7 @@ class App extends Component {
                   <Route exact path={`/tv/:id`} component={SeriesOverview} />
                   <Route path={`/tv/:id/season/:seasonNumber`} component={Season} />
                   <Route exact path={`/collection`} component={Collection} />
-                  <Route exact path={`/collection/:id`} component={CollectionSeries} />
+                  <Route path={`/collection/:id`} component={CollectionSeries} />
                 </Switch>
               </div>
             </div>

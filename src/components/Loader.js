@@ -9,7 +9,7 @@ const StyledLoader = styled.div`
   transform: translate(-50%, -50%);
 
   .text {
-    color: #8e44ad;
+    color: rgb(4, 28, 44);
     display: inline-block;
     margin-left: 15px;
     ${font('headline')};
@@ -28,7 +28,7 @@ const StyledLoader = styled.div`
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background-color: #9b59b6;
+      background-color: rgb(4, 28, 44);
       transform-origin: 50%;
       animation: bounce 500ms alternate infinite ease;
     }

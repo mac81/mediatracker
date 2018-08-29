@@ -26,10 +26,11 @@ export default createReducer(initialState, {
     isLoading: false,
     season,
   }),
-  [SeriesActions.fetchSeriesWithLatestSeason.success]: (state, {payload: {series, season}}) => ({
+  [SeriesActions.fetchSeriesWithLatestSeason.success]: (state, {payload: {series, palette, season}}) => ({
     ...state,
     isLoading: false,
     details: series.details,
+    palette,
     season,
   }),
   [CollectionActions.addSeriesToCollection.success]: state => ({
