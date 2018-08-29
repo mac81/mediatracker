@@ -1,12 +1,17 @@
 const netlifyIdentity = require('netlify-identity-widget');
 
-export const getUserCollectionApi = () =>
-  fetch(`/.netlify/functions/get-user-collection`, {
+export const getUserCollectionApi = () => {
+  const user = netlifyIdentity.currentUser();
+  return fetch(`/.netlify/functions/get-user-collection`, {
     method: 'GET',
-    headers: {'content-type': 'application/json'},
+    headers: {
+      Authorization: `Bearer ${user.token.access_token}`,
+      'Content-Type': 'application/json',
+    },
   })
     .then(response => response.json())
     .then(json => json);
+};
 
 export const addSeriesToCollectionApi = (id, name) => {
   const user = netlifyIdentity.currentUser();
