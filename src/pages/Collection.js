@@ -26,6 +26,7 @@ class Collection extends React.Component {
               </li>
             ))}
         </ul>
+        <ul>{userCollection.movies && userCollection.movies.map(movie => <li>{movie.title}</li>)}</ul>
       </Page>
     );
   }

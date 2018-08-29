@@ -6,7 +6,10 @@ const initialState = {};
 export default createReducer(initialState, {
   [MovieActions.fetchMovie.success]: (state, {payload: {movie}}) => ({
     ...state,
-    details: movie.details,
+    details: {
+      ...movie.details,
+      ['media_type']: 'movie',
+    },
   }),
 });
 

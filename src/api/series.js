@@ -6,7 +6,7 @@ export const getSeriesApi = id => {
   return fetch(`/.netlify/functions/get-series?id=${id}`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${user.token.access_token}`,
+      ...(user && {Authorization: `Bearer ${user.token.access_token}`}),
       'Content-Type': 'application/json',
     },
   })

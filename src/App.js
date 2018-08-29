@@ -23,6 +23,10 @@ netlifyIdentity.init({
   APIUrl: 'http://www.websirius.com/.netlify/identity',
 });
 
+const PrivateRoute = ({component: Component, ...rest}) => {
+  const user = netlifyIdentity.currentUser();
+  return <Route {...rest} render={props => (user ? <Component {...props} /> : <div>No access</div>)} />;
+};
 class App extends Component {
   constructor(...args) {
     super(...args);
@@ -43,8 +47,8 @@ class App extends Component {
                   <Route path={`/movie/:id`} component={Movie} />
                   <Route exact path={`/tv/:id`} component={SeriesOverview} />
                   <Route path={`/tv/:id/season/:seasonNumber`} component={Season} />
-                  <Route exact path={`/collection`} component={Collection} />
-                  <Route path={`/collection/:id`} component={CollectionSeries} />
+                  <PrivateRoute exact path={`/collection`} component={Collection} />
+                  <PrivateRoute path={`/collection/:id`} component={CollectionSeries} />
                 </Switch>
               </div>
             </div>

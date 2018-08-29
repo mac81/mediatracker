@@ -85,13 +85,16 @@ class CollectionSeries extends React.Component {
               <h2>{series.name}</h2>
             </div>
           </div>
-          <ul>
-            {series.seasons.map(season => (
-              <li key={season.id}>
-                <Link to={`/collection/${series.id}/season/${season.season_number}`}>{season.season_number}</Link>
-              </li>
-            ))}
-          </ul>
+
+          <nav>
+            <ul>
+              {series.seasons.map(s => (
+                <li key={s.id} className={s.id === season.id ? 'active' : undefined}>
+                  <Link to={`/collection/${series.id}/season/${s.season_number}`}>{s.season_number}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <table>
             <thead>
               <tr>

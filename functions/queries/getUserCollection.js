@@ -6,7 +6,8 @@ const getUserCollection = (db, user) => {
     .findOne({userId: user.email})
     .then(user => {
       const series = user ? user.series : [];
-      return {statusCode: 200, body: JSON.stringify({series: series})};
+      const movies = user ? user.movies : [];
+      return {statusCode: 200, body: JSON.stringify({series, movies})};
     })
     .catch(err => {
       console.log('=> an error occurred: ', err);

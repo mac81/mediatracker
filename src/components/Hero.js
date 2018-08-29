@@ -92,10 +92,15 @@ class Hero extends React.Component {
   addToWatchlist() {
     const {
       addSeriesToCollection,
-      details: {id, name},
+      addMovieToCollection,
+      details: {id, name, title, media_type},
     } = this.props;
 
-    addSeriesToCollection({id, name});
+    if (media_type === 'movie') {
+      addMovieToCollection({id, title});
+    } else {
+      addSeriesToCollection({id, name});
+    }
   }
 
   removeFromWatchlist() {

@@ -1,34 +1,29 @@
 import {call, put, takeLatest, fork} from 'redux-saga/effects';
-
 import * as CollectionActions from '../actions/collectionActions';
 import {
   getUserCollectionApi,
+  addMovieToCollectionApi,
   addSeriesToCollectionApi,
   removeSeriesFromCollectionApi,
   addEpisodeApi,
+  removeEpisodeApi,
 } from '../api/collection';
 
-function* search() {
+function* collection() {
   yield takeLatest(CollectionActions.fetchUserCollection, fetchUserCollectionSaga);
+  yield takeLatest(CollectionActions.addMovieToCollection, addMovieToCollectionSaga);
   yield takeLatest(CollectionActions.addSeriesToCollection, addSeriesToCollectionSaga);
   yield takeLatest(CollectionActions.removeSeriesFromCollection, removeSeriesFromCollectionSaga);
   yield takeLatest(CollectionActions.addEpisode, addEpisodeSaga);
+  yield takeLatest(CollectionActions.removeEpisode, removeEpisodeSaga);
 }
+
+/***********************
+ * FETCH USER COLLECTION
+ **********************/
 
 function* fetchUserCollectionSaga() {
   yield fork(fetchUserCollection);
-}
-
-function* addSeriesToCollectionSaga({payload: {id, name}}) {
-  yield fork(addSeriesToCollection, id, name);
-}
-
-function* removeSeriesFromCollectionSaga({payload: {id}}) {
-  yield fork(removeSeriesFromCollection, id);
-}
-
-function* addEpisodeSaga({payload: {seriesId, episodeId}}) {
-  yield fork(addEpisode, seriesId, episodeId);
 }
 
 function* fetchUserCollection() {
@@ -42,6 +37,33 @@ function* fetchUserCollection() {
   }
 }
 
+/***********************
+ * ADD MOVIE
+ **********************/
+
+function* addMovieToCollectionSaga({payload: {id, title}}) {
+  yield fork(addMovieToCollection, id, title);
+}
+
+function* addMovieToCollection(id, title) {
+  yield put(CollectionActions.addMovieToCollection.request(id));
+  try {
+    const movie = yield call(addMovieToCollectionApi, id, title);
+    yield put(CollectionActions.addMovieToCollection.success({movie}));
+  } catch (error) {
+    console.log(error);
+    yield put(CollectionActions.addMovieToCollection.failure(error));
+  }
+}
+
+/***********************
+ * ADD SERIES
+ **********************/
+
+function* addSeriesToCollectionSaga({payload: {id, name}}) {
+  yield fork(addSeriesToCollection, id, name);
+}
+
 function* addSeriesToCollection(id, name) {
   yield put(CollectionActions.addSeriesToCollection.request(id));
   try {
@@ -51,6 +73,14 @@ function* addSeriesToCollection(id, name) {
     console.log(error);
     yield put(CollectionActions.addSeriesToCollection.failure(error));
   }
+}
+
+/***********************
+ * REMOVE SERIES
+ **********************/
+
+function* removeSeriesFromCollectionSaga({payload: {id}}) {
+  yield fork(removeSeriesFromCollection, id);
 }
 
 function* removeSeriesFromCollection(id) {
@@ -64,15 +94,42 @@ function* removeSeriesFromCollection(id) {
   }
 }
 
+/***********************
+ * ADD EPISODE
+ **********************/
+
+function* addEpisodeSaga({payload: {seriesId, episodeId}}) {
+  yield fork(addEpisode, seriesId, episodeId);
+}
+
 function* addEpisode(seriesId, episodeId) {
   yield put(CollectionActions.addEpisode.request(episodeId));
   try {
     const episode = yield call(addEpisodeApi, seriesId, episodeId);
-    yield put(CollectionActions.addEpisode.success({episode}));
+    yield put(CollectionActions.addEpisode.success({seriesId, episodeId}));
   } catch (error) {
     console.log(error);
     yield put(CollectionActions.addEpisode.failure(error));
   }
 }
 
-export default search;
+/***********************
+ * REMOVE EPISODE
+ **********************/
+
+function* removeEpisodeSaga({payload: {seriesId, episodeId}}) {
+  yield fork(removeEpisode, seriesId, episodeId);
+}
+
+function* removeEpisode(seriesId, episodeId) {
+  yield put(CollectionActions.removeEpisode.request(episodeId));
+  try {
+    const episode = yield call(removeEpisodeApi, seriesId, episodeId);
+    yield put(CollectionActions.removeEpisode.success({seriesId, episodeId}));
+  } catch (error) {
+    console.log(error);
+    yield put(CollectionActions.removeEpisode.failure(error));
+  }
+}
+
+export default collection;

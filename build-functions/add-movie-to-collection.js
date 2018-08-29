@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 147);
+/******/ 	return __webpack_require__(__webpack_require__.s = 148);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -42465,7 +42465,8 @@ exports.default = getUser;
 /* 144 */,
 /* 145 */,
 /* 146 */,
-/* 147 */
+/* 147 */,
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42482,14 +42483,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const queryDatabase = (db, user, payload) => {
   console.log('=> query database');
 
-  const { seriesId, episodeId } = payload;
+  const { id, title } = payload;
 
-  return db.collection('users').updateOne({ userId: user.email, 'series.id': seriesId }, {
-    $addToSet: {
-      'series.$.episodes': episodeId
-    }
-  }).then(test => {
-    return { statusCode: 200, body: JSON.stringify({ episodeId }) };
+  return db.collection('users').updateOne({ userId: user.email }, { $set: { userId: user.email }, $addToSet: { movies: { id, title } } }, { upsert: true }).then(() => {
+    return { statusCode: 200, body: JSON.stringify({ id, title }) };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };
@@ -42500,7 +42497,6 @@ exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   const user = (0, _getUser.getUser)(context);
-
   const payload = JSON.parse(event.body);
 
   (0, _connectDb2.default)().then(db => queryDatabase(db, user, payload)).then(result => {
