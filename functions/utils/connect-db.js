@@ -1,4 +1,5 @@
 import {MongoClient} from 'mongodb';
+import config from '../../config';
 
 let cachedDb = null;
 
@@ -11,7 +12,7 @@ export default function connectToDatabase() {
   }
 
   return MongoClient.connect(
-    `mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`,
+    config.databaseUrl,
     {useNewUrlParser: true}
   ).then(database => {
     cachedDb = database.db('test');

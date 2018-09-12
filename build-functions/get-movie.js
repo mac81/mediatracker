@@ -4131,20 +4131,10 @@ Request.prototype.clone = function() {
 
 /***/ }),
 /* 145 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-const config = exports.config = {
-  apiKey: '09a8124b3c99808252428baa9491f22e',
-  apiRoot: 'https://api.themoviedb.org/3/',
-  secret: 'secret',
-  databaseUrl: 'mongodb://admin:admin@ds149865.mlab.com:49865/moveries'
-};
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/ThomasW/lab/mediatracker-2017/config.js'");
 
 /***/ }),
 /* 146 */,

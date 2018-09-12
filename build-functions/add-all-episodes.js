@@ -24606,6 +24606,12 @@ exports.default = connectToDatabase;
 
 var _mongodb = __webpack_require__(78);
 
+var _config = __webpack_require__(145);
+
+var _config2 = _interopRequireDefault(_config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 let cachedDb = null;
 
 function connectToDatabase() {
@@ -24616,7 +24622,7 @@ function connectToDatabase() {
     return Promise.resolve(cachedDb);
   }
 
-  return _mongodb.MongoClient.connect(`mongodb+srv://thomasw:Mac173173@watchit-3nncd.mongodb.net/test?retryWrites=true`, { useNewUrlParser: true }).then(database => {
+  return _mongodb.MongoClient.connect(_config2.default.databaseUrl, { useNewUrlParser: true }).then(database => {
     cachedDb = database.db('test');
     return cachedDb;
   });
@@ -42981,9 +42987,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 const getUser = exports.getUser = context => {
-  const user = context.clientContext ? context.clientContext.user : { email: 'test@test.no' };
-
-  return user;
+  if (process.env.NODE_ENV === 'development') {
+    return { email: 'test@test.no' };
+  } else if (context.clientContext) {
+    return context.clientContext.user;
+  }
 };
 
 exports.default = getUser;
@@ -46360,20 +46368,10 @@ Request.prototype.clone = function() {
 
 /***/ }),
 /* 145 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-const config = exports.config = {
-  apiKey: '09a8124b3c99808252428baa9491f22e',
-  apiRoot: 'https://api.themoviedb.org/3/',
-  secret: 'secret',
-  databaseUrl: 'mongodb://admin:admin@ds149865.mlab.com:49865/moveries'
-};
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/ThomasW/lab/mediatracker-2017/config.js'");
 
 /***/ }),
 /* 146 */,

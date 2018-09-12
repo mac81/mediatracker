@@ -1,7 +1,9 @@
 export const getUser = context => {
-  const user = context.clientContext ? context.clientContext.user : {email: 'test@test.no'};
-
-  return user;
+  if (process.env.NODE_ENV === 'development') {
+    return {email: 'test@test.no'};
+  } else if (context.clientContext) {
+    return context.clientContext.user;
+  }
 };
 
 export default getUser;
