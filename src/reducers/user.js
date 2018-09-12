@@ -8,6 +8,10 @@ export default createReducer(initialState, {
     ...state,
     user,
   }),
+  [UserActions.logout]: state => ({
+    ...state,
+    user: null,
+  }),
 });
 
 export const SELECTORS = {

@@ -22,6 +22,7 @@ export const typography = {
     title: convertToRem(20),
     body2: convertToRem(13),
     body1: convertToRem(13),
+    small: convertToRem(11),
     button: convertToRem(14),
   },
   fontWeight: {
@@ -32,7 +33,8 @@ export const typography = {
     headline: FONT_WEIGHTS.LIGHT,
     title: FONT_WEIGHTS.REGULAR,
     body2: FONT_WEIGHTS.REGULAR,
-    body1: FONT_WEIGHTS.LIGHT,
+    body1: FONT_WEIGHTS.REGULAR,
+    small: FONT_WEIGHTS.LIGHT,
     button: FONT_WEIGHTS.REGULAR,
   },
   lineHeight: {
@@ -44,6 +46,7 @@ export const typography = {
     title: convertToRem(28),
     body2: convertToRem(24),
     body1: convertToRem(20),
+    small: convertToRem(18),
     button: convertToRem(20),
   },
   letterSpacing: {
@@ -55,6 +58,7 @@ export const typography = {
     title: 0.05,
     body2: 0.1,
     body1: 0.1,
+    small: 0.1,
     button: 0.1,
   },
   color: {
@@ -64,7 +68,7 @@ export const typography = {
 };
 
 export const font = style => `
-  font-family: ${FONT_FAMILY_HEADER}; 
+  font-family: ${style === 'body1' || style === 'body2' ? FONT_FAMILY_BODY : FONT_FAMILY_HEADER}; 
   font-weight: ${typography.fontWeight[style]}; 
   font-size: ${typography.fontSize[style]};
   line-height: ${typography.lineHeight[style]};

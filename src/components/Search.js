@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const StyledSearch = styled.div`
   .searchbox {
     border: none;
-
+    background-color: #f8f8f8;
     width: 100%;
     padding: 12px 20px;
 
@@ -79,7 +79,9 @@ class Search extends React.Component {
             searchResults.map(result => (
               <li>
                 <Link to={`/${result.media_type}/${result.id}`} onClick={this.onResultClick}>
-                  {result.poster_path && <img src={`https://image.tmdb.org/t/p/w92/${result.poster_path}`} />}
+                  {result.poster_path && (
+                    <img src={`https://image.tmdb.org/t/p/w92/${result.poster_path}`} alt={result.title} />
+                  )}
                   <div>
                     <h2>{result.name || result.title}</h2>
                     <span>{result.media_type}</span>

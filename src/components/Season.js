@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router';
 import styled from 'styled-components';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 
 const shorten = (str, maxLen, separator = ' ') => {
   if (str.length <= maxLen) return str;
@@ -41,7 +41,7 @@ const Season = ({season, match}) => (
   <StyledSeason>
     <Link to={`${match.url}/season/${season.season_number}`}>
       <div className="image-wrapper">
-        <img src={`https://image.tmdb.org/t/p/w500/${season.poster_path}`} />
+        <img src={`https://image.tmdb.org/t/p/w500/${season.poster_path}`} alt="Season" />
       </div>
       <div className="card-content">
         <h4>

@@ -5,7 +5,7 @@ import {SELECTORS} from '../reducers';
 import * as CollectionActions from '../actions/collectionActions';
 
 import styled from 'styled-components';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 import ScoreChart from './ScoreChart';
 
 const StyledHero = styled.div`
@@ -42,6 +42,11 @@ const StyledHero = styled.div`
         )
         100%
     );
+    /* background-image: radial-gradient(
+      circle at 20% 50%,
+      rgba(52, 35, 78, 0.94) 0%,
+      rgba(186, 82, 104, 0.94) 100%
+    ); */
   }
 
   .container {
@@ -78,6 +83,41 @@ const StyledHero = styled.div`
   .hero-overview {
     ${font('body2')};
     color: #fff;
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .icon {
+    background: none;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 100ms ease-in-out;
+
+    svg {
+      fill: #fff;
+      width: 24px;
+      height: 24px;
+    }
+
+    &.active {
+      svg {
+        fill: #f5879b;
+      }
+    }
+
+    &:hover {
+      background-color: #fff;
+      svg {
+        fill: #000;
+      }
+    }
   }
 `;
 
@@ -128,7 +168,7 @@ class Hero extends React.Component {
         </div>
         <div className="container">
           <div className="hero-image">
-            <img src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} />
+            <img src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} alt={details.title || details.name} />
           </div>
           <div className="hero-content">
             <div className="hero-title">
@@ -136,13 +176,23 @@ class Hero extends React.Component {
                 {details.title || details.name} <span>{`(${releaseYear})`}</span>
               </h2>
             </div>
-            {user &&
-              (!details.isInCollection ? (
-                <button onClick={this.addToWatchlist}>Add to watchlist</button>
-              ) : (
-                <button onClick={this.removeFromWatchlist}>Remove from watchlist</button>
-              ))}
-            <ScoreChart score={details.vote_average} />
+            <div className="actions">
+              <ScoreChart score={details.vote_average} />
+              {user &&
+                (!details.isInCollection ? (
+                  <button onClick={this.addToWatchlist} className="icon">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M17,3A2,2 0 0,1 19,5V21L12,18L5,21V5C5,3.89 5.9,3 7,3H17M11,7V9H9V11H11V13H13V11H15V9H13V7H11Z" />
+                    </svg>
+                  </button>
+                ) : (
+                  <button onClick={this.removeFromWatchlist} className="icon active">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5A2,2 0 0,0 17,3M15,11H9V9H15V11Z" />
+                    </svg>
+                  </button>
+                ))}
+            </div>
             <div className="hero-overview">{details.overview}</div>
           </div>
         </div>

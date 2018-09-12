@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 
 const StyledLoader = styled.div`
   position: absolute;

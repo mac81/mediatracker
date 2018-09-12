@@ -57,33 +57,3 @@ export const removeSeriesFromCollectionApi = id => {
     .then(json => json)
     .catch(error => console.error('Error:', error));
 };
-
-export const addEpisodeApi = (seriesId, episodeId) => {
-  const user = netlifyIdentity.currentUser();
-  return fetch(`/.netlify/functions/add-episode`, {
-    method: 'POST',
-    headers: {
-      ...(user && {Authorization: `Bearer ${user.token.access_token}`}),
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({seriesId, episodeId}),
-  })
-    .then(response => response.json())
-    .then(json => json)
-    .catch(error => console.error('Error:', error));
-};
-
-export const removeEpisodeApi = (seriesId, episodeId) => {
-  const user = netlifyIdentity.currentUser();
-  return fetch(`/.netlify/functions/remove-episode`, {
-    method: 'DELETE',
-    headers: {
-      ...(user && {Authorization: `Bearer ${user.token.access_token}`}),
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({seriesId, episodeId}),
-  })
-    .then(response => response.json())
-    .then(json => json)
-    .catch(error => console.error('Error:', error));
-};

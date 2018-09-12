@@ -10,7 +10,7 @@ function* user() {
 }
 
 function* userLoginSaga() {
-  netlifyIdentity.open('login');
+  yield netlifyIdentity.open('login');
 }
 
 function* userLogoutSaga() {
@@ -18,7 +18,7 @@ function* userLogoutSaga() {
 }
 
 function* userSignupSaga() {
-  netlifyIdentity.open('signup');
+  yield netlifyIdentity.open('signup');
 }
 
 export default user;

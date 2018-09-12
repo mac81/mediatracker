@@ -4,15 +4,15 @@ import {getUser} from './utils/get-user';
 const queryDatabase = (db, user, payload) => {
   console.log('=> query database');
 
-  const {seriesId, episodeId} = payload;
+  const {seriesId, episodeId, seasonNumber} = payload;
 
   return db
     .collection('users')
     .updateOne(
-      {userId: user.email, 'series.id': seriesId},
+      {userId: user.email},
       {
         $addToSet: {
-          'series.$.episodes': episodeId,
+          episodes: {id: episodeId, series_id: seriesId, season_number: seasonNumber},
         },
       }
     )

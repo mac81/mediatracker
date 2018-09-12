@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 152);
+/******/ 	return __webpack_require__(__webpack_require__.s = 155);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -787,7 +787,7 @@ module.exports = {
 "use strict";
 
 
-var BSON = __webpack_require__(54);
+var BSON = __webpack_require__(53);
 var require_optional = __webpack_require__(45);
 
 try {
@@ -809,7 +809,7 @@ module.exports = {
   MongoWriteConcernError: __webpack_require__(4).MongoWriteConcernError,
   mongoErrorContextSymbol: __webpack_require__(4).mongoErrorContextSymbol,
   // Core
-  Connection: __webpack_require__(58),
+  Connection: __webpack_require__(57),
   Server: __webpack_require__(47),
   ReplSet: __webpack_require__(100),
   Mongos: __webpack_require__(102),
@@ -822,10 +822,10 @@ module.exports = {
   Query: __webpack_require__(7).Query,
   // Auth mechanisms
   defaultAuthProviders: __webpack_require__(36).defaultAuthProviders,
-  MongoCR: __webpack_require__(60),
-  X509: __webpack_require__(61),
-  Plain: __webpack_require__(62),
-  GSSAPI: __webpack_require__(63),
+  MongoCR: __webpack_require__(59),
+  X509: __webpack_require__(60),
+  Plain: __webpack_require__(61),
+  GSSAPI: __webpack_require__(62),
   ScramSHA1: __webpack_require__(37).ScramSHA1,
   ScramSHA256: __webpack_require__(37).ScramSHA256,
   // Utilities
@@ -2028,7 +2028,7 @@ function removeDocuments(coll, selector, options, callback) {
  * @param {Collection~collectionResultCallback} [callback] The results callback
  */
 function rename(coll, newName, options, callback) {
-  const Collection = __webpack_require__(19);
+  const Collection = __webpack_require__(18);
   // Check the collection name
   checkCollectionName(newName);
   // Build the command
@@ -2464,7 +2464,7 @@ module.exports = {
 const applyWriteConcern = __webpack_require__(0).applyWriteConcern;
 const Code = __webpack_require__(1).BSON.Code;
 const resolveReadPreference = __webpack_require__(0).resolveReadPreference;
-const crypto = __webpack_require__(18);
+const crypto = __webpack_require__(17);
 const Db = __webpack_require__(24);
 const debugOptions = __webpack_require__(0).debugOptions;
 const handleCallback = __webpack_require__(0).handleCallback;
@@ -2591,7 +2591,7 @@ function addUser(db, username, password, options, callback) {
  * @param {Db~collectionsResultCallback} [callback] The results callback
  */
 function collections(db, options, callback) {
-  const Collection = __webpack_require__(19);
+  const Collection = __webpack_require__(18);
 
   options = Object.assign({}, options, { nameOnly: true });
   // Let's get the collection names
@@ -2631,7 +2631,7 @@ function collections(db, options, callback) {
  * @param {Db~collectionResultCallback} [callback] The results callback
  */
 function createCollection(db, name, options, callback) {
-  const Collection = __webpack_require__(19);
+  const Collection = __webpack_require__(18);
 
   // Get the write concern options
   const finalOptions = applyWriteConcern(Object.assign({}, options), { db }, options);
@@ -3450,7 +3450,7 @@ module.exports = {
 "use strict";
 
 
-const os = __webpack_require__(59);
+const os = __webpack_require__(58);
 const f = __webpack_require__(2).format;
 const ReadPreference = __webpack_require__(15);
 
@@ -4511,7 +4511,7 @@ var debugOptions = function(debugFields, options) {
 };
 
 var retrieveBSON = function() {
-  var BSON = __webpack_require__(54);
+  var BSON = __webpack_require__(53);
   BSON.native = false;
 
   try {
@@ -4577,7 +4577,7 @@ module.exports = require("stream");
 "use strict";
 
 
-const crypto = __webpack_require__(18);
+const crypto = __webpack_require__(17);
 const requireOptional = __webpack_require__(45);
 
 /**
@@ -7176,16 +7176,10 @@ module.exports.Long = Long;
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("buffer");
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
 module.exports = require("crypto");
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7195,7 +7189,7 @@ const deprecate = __webpack_require__(2).deprecate;
 const deprecateOptions = __webpack_require__(0).deprecateOptions;
 const checkCollectionName = __webpack_require__(0).checkCollectionName;
 const ObjectID = __webpack_require__(1).BSON.ObjectID;
-const AggregationCursor = __webpack_require__(65);
+const AggregationCursor = __webpack_require__(64);
 const MongoError = __webpack_require__(1).MongoError;
 const toError = __webpack_require__(0).toError;
 const normalizeHintField = __webpack_require__(0).normalizeHintField;
@@ -9290,7 +9284,7 @@ module.exports = Collection;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9299,7 +9293,7 @@ module.exports = Collection;
 const EventEmitter = __webpack_require__(9),
   MongoError = __webpack_require__(1).MongoError,
   f = __webpack_require__(2).format,
-  os = __webpack_require__(59),
+  os = __webpack_require__(58),
   translateReadPreference = __webpack_require__(0).translateReadPreference,
   ClientSession = __webpack_require__(1).Sessions.ClientSession;
 
@@ -9743,6 +9737,12 @@ exports.TopologyBase = TopologyBase;
 
 
 /***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("buffer");
+
+/***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
@@ -9774,7 +9774,7 @@ module.exports.MinKey = MinKey;
 // Test if we're in Node via presence of "global" not absence of "window"
 // to support hybrid environments like Electron
 if (typeof global !== 'undefined') {
-  var Buffer = __webpack_require__(17).Buffer; // TODO just use global Buffer
+  var Buffer = __webpack_require__(20).Buffer; // TODO just use global Buffer
 }
 
 /**
@@ -10412,7 +10412,7 @@ const ReadPreference = __webpack_require__(1).ReadPreference;
 const MongoError = __webpack_require__(1).MongoError;
 const ObjectID = __webpack_require__(1).ObjectID;
 const Logger = __webpack_require__(1).Logger;
-const Collection = __webpack_require__(19);
+const Collection = __webpack_require__(18);
 const mergeOptionsAndWriteConcern = __webpack_require__(0).mergeOptionsAndWriteConcern;
 const executeOperation = __webpack_require__(0).executeOperation;
 const applyWriteConcern = __webpack_require__(0).applyWriteConcern;
@@ -10669,7 +10669,7 @@ Db.prototype.command = function(command, options, callback) {
  * @return {Admin} return the new Admin db instance
  */
 Db.prototype.admin = function() {
-  const Admin = __webpack_require__(66);
+  const Admin = __webpack_require__(65);
 
   return new Admin(this, this.s.topology, this.s.promiseLibrary);
 };
@@ -13699,7 +13699,7 @@ module.exports.DBRef = DBRef;
 
 
 var Snappy = __webpack_require__(8).retrieveSnappy(),
-  zlib = __webpack_require__(53);
+  zlib = __webpack_require__(69);
 
 var compressorIDs = {
   snappy: 1,
@@ -13778,10 +13778,10 @@ module.exports = {
 "use strict";
 
 
-const MongoCR = __webpack_require__(60);
-const X509 = __webpack_require__(61);
-const Plain = __webpack_require__(62);
-const GSSAPI = __webpack_require__(63);
+const MongoCR = __webpack_require__(59);
+const X509 = __webpack_require__(60);
+const Plain = __webpack_require__(61);
+const GSSAPI = __webpack_require__(62);
 const SSPI = __webpack_require__(94);
 const ScramSHA1 = __webpack_require__(37).ScramSHA1;
 const ScramSHA256 = __webpack_require__(37).ScramSHA256;
@@ -13815,7 +13815,7 @@ module.exports = { defaultAuthProviders };
 
 
 var f = __webpack_require__(2).format,
-  crypto = __webpack_require__(18),
+  crypto = __webpack_require__(17),
   retrieveBSON = __webpack_require__(8).retrieveBSON,
   Query = __webpack_require__(7).Query,
   MongoError = __webpack_require__(4).MongoError;
@@ -16700,8 +16700,8 @@ module.exports = {
 
 const CServer = __webpack_require__(1).Server;
 const Cursor = __webpack_require__(12);
-const TopologyBase = __webpack_require__(20).TopologyBase;
-const Store = __webpack_require__(20).Store;
+const TopologyBase = __webpack_require__(19).TopologyBase;
+const Store = __webpack_require__(19).Store;
 const MongoError = __webpack_require__(1).MongoError;
 const MAX_JS_INT = __webpack_require__(0).MAX_JS_INT;
 const translateOptions = __webpack_require__(0).translateOptions;
@@ -17162,7 +17162,7 @@ module.exports = Server;
 
 
 
-var buffer = __webpack_require__(17)
+var buffer = __webpack_require__(20)
 var Buffer = buffer.Buffer
 
 var safer = {}
@@ -17415,8 +17415,8 @@ module.exports.Int32 = Int32;
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var path = __webpack_require__(56),
-  fs = __webpack_require__(57),
+/* WEBPACK VAR INJECTION */(function(module) {var path = __webpack_require__(55),
+  fs = __webpack_require__(56),
   f = __webpack_require__(2).format,
   resolveFrom = __webpack_require__(85),
   semver = __webpack_require__(87);
@@ -18891,7 +18891,7 @@ const CHANGE_DOMAIN_TYPES = {
 class ChangeStream extends EventEmitter {
   constructor(changeDomain, pipeline, options) {
     super();
-    const Collection = __webpack_require__(19);
+    const Collection = __webpack_require__(18);
     const Db = __webpack_require__(24);
     const MongoClient = __webpack_require__(39);
 
@@ -19683,10 +19683,10 @@ const authenticate = __webpack_require__(110);
 const deprecate = __webpack_require__(2).deprecate;
 const Logger = __webpack_require__(1).Logger;
 const MongoError = __webpack_require__(1).MongoError;
-const Mongos = __webpack_require__(67);
+const Mongos = __webpack_require__(66);
 const parse = __webpack_require__(1).parseConnectionString;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const ReplSet = __webpack_require__(68);
+const ReplSet = __webpack_require__(67);
 const Server = __webpack_require__(41);
 const ServerSessionPool = __webpack_require__(1).Sessions.ServerSessionPool;
 
@@ -20307,12 +20307,6 @@ module.exports = { connectOp, logout, validOptions };
 
 /***/ }),
 /* 53 */
-/***/ (function(module, exports) {
-
-module.exports = require("zlib");
-
-/***/ }),
-/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var BSON = __webpack_require__(79),
@@ -20364,7 +20358,7 @@ module.exports = BSON;
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20385,19 +20379,19 @@ module.exports = {
 
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20407,7 +20401,7 @@ var inherits = __webpack_require__(2).inherits,
   EventEmitter = __webpack_require__(9).EventEmitter,
   net = __webpack_require__(88),
   tls = __webpack_require__(89),
-  crypto = __webpack_require__(18),
+  crypto = __webpack_require__(17),
   f = __webpack_require__(2).format,
   debugOptions = __webpack_require__(8).debugOptions,
   parseHeader = __webpack_require__(13).parseHeader,
@@ -21208,20 +21202,20 @@ module.exports = Connection;
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var f = __webpack_require__(2).format,
-  crypto = __webpack_require__(18),
+  crypto = __webpack_require__(17),
   Query = __webpack_require__(7).Query,
   MongoError = __webpack_require__(4).MongoError;
 
@@ -21435,7 +21429,7 @@ module.exports = MongoCR;
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21621,7 +21615,7 @@ module.exports = X509;
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21811,7 +21805,7 @@ module.exports = Plain;
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22192,13 +22186,13 @@ module.exports = GSSAPI;
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = require("dns");
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22612,7 +22606,7 @@ module.exports = AggregationCursor;
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22912,18 +22906,18 @@ module.exports = Admin;
 
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const TopologyBase = __webpack_require__(20).TopologyBase;
+const TopologyBase = __webpack_require__(19).TopologyBase;
 const MongoError = __webpack_require__(1).MongoError;
 const CMongos = __webpack_require__(1).Mongos;
 const Cursor = __webpack_require__(12);
 const Server = __webpack_require__(41);
-const Store = __webpack_require__(20).Store;
+const Store = __webpack_require__(19).Store;
 const MAX_JS_INT = __webpack_require__(0).MAX_JS_INT;
 const translateOptions = __webpack_require__(0).translateOptions;
 const filterOptions = __webpack_require__(0).filterOptions;
@@ -23371,7 +23365,7 @@ module.exports = Mongos;
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23380,8 +23374,8 @@ module.exports = Mongos;
 const Server = __webpack_require__(41);
 const Cursor = __webpack_require__(12);
 const MongoError = __webpack_require__(1).MongoError;
-const TopologyBase = __webpack_require__(20).TopologyBase;
-const Store = __webpack_require__(20).Store;
+const TopologyBase = __webpack_require__(19).TopologyBase;
+const Store = __webpack_require__(19).Store;
 const CReplSet = __webpack_require__(1).ReplSet;
 const MAX_JS_INT = __webpack_require__(0).MAX_JS_INT;
 const translateOptions = __webpack_require__(0).translateOptions;
@@ -23875,7 +23869,7 @@ module.exports = ReplSet;
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24114,6 +24108,12 @@ Chunk.DEFAULT_CHUNK_SIZE = 1024 * 255;
 
 module.exports = Chunk;
 
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports) {
+
+module.exports = require("zlib");
 
 /***/ }),
 /* 70 */
@@ -24641,18 +24641,18 @@ connect.MongoError = core.MongoError;
 connect.MongoNetworkError = core.MongoNetworkError;
 
 // Actual driver classes exported
-connect.Admin = __webpack_require__(66);
+connect.Admin = __webpack_require__(65);
 connect.MongoClient = __webpack_require__(39);
 connect.Db = __webpack_require__(24);
-connect.Collection = __webpack_require__(19);
+connect.Collection = __webpack_require__(18);
 connect.Server = __webpack_require__(41);
-connect.ReplSet = __webpack_require__(68);
-connect.Mongos = __webpack_require__(67);
+connect.ReplSet = __webpack_require__(67);
+connect.Mongos = __webpack_require__(66);
 connect.ReadPreference = __webpack_require__(1).ReadPreference;
 connect.GridStore = __webpack_require__(113);
-connect.Chunk = __webpack_require__(69);
+connect.Chunk = __webpack_require__(68);
 connect.Logger = core.Logger;
-connect.AggregationCursor = __webpack_require__(65);
+connect.AggregationCursor = __webpack_require__(64);
 connect.CommandCursor = __webpack_require__(50);
 connect.Cursor = __webpack_require__(12);
 connect.GridFSBucket = __webpack_require__(114);
@@ -25888,7 +25888,7 @@ var writeIEEE754 = __webpack_require__(82).writeIEEE754,
   Map = __webpack_require__(43),
   Binary = __webpack_require__(22).Binary;
 
-var normalizedFunctionString = __webpack_require__(55).normalizedFunctionString;
+var normalizedFunctionString = __webpack_require__(54).normalizedFunctionString;
 
 // try {
 //   var _Buffer = Uint8Array;
@@ -27215,7 +27215,7 @@ var Long = __webpack_require__(16).Long,
   DBRef = __webpack_require__(34).DBRef,
   Binary = __webpack_require__(22).Binary;
 
-var normalizedFunctionString = __webpack_require__(55).normalizedFunctionString;
+var normalizedFunctionString = __webpack_require__(54).normalizedFunctionString;
 
 // To ensure that 0.4 of node works correctly
 var isDate = function isDate(d) {
@@ -27491,7 +27491,7 @@ module.exports = function(module) {
 
 "use strict";
 
-var path = __webpack_require__(56);
+var path = __webpack_require__(55);
 var Module = __webpack_require__(86);
 
 module.exports = function (fromDir, moduleId) {
@@ -28872,7 +28872,7 @@ module.exports = require("tls");
 
 const inherits = __webpack_require__(2).inherits;
 const EventEmitter = __webpack_require__(9).EventEmitter;
-const Connection = __webpack_require__(58);
+const Connection = __webpack_require__(57);
 const MongoError = __webpack_require__(4).MongoError;
 const MongoNetworkError = __webpack_require__(4).MongoNetworkError;
 const MongoWriteConcernError = __webpack_require__(4).MongoWriteConcernError;
@@ -38143,7 +38143,7 @@ module.exports = {
 
 const URL = __webpack_require__(25);
 const qs = __webpack_require__(105);
-const dns = __webpack_require__(64);
+const dns = __webpack_require__(63);
 const MongoParseError = __webpack_require__(4).MongoParseError;
 
 /**
@@ -39108,7 +39108,7 @@ const ReadPreference = __webpack_require__(1).ReadPreference,
   parser = __webpack_require__(25),
   f = __webpack_require__(2).format,
   Logger = __webpack_require__(1).Logger,
-  dns = __webpack_require__(64);
+  dns = __webpack_require__(63);
 
 module.exports = function(url, options, callback) {
   if (typeof options === 'function') (callback = options), (options = {});
@@ -39767,11 +39767,11 @@ function parseConnectionString(url, options) {
  *   });
  * });
  */
-const Chunk = __webpack_require__(69);
+const Chunk = __webpack_require__(68);
 const ObjectID = __webpack_require__(1).BSON.ObjectID;
 const ReadPreference = __webpack_require__(1).ReadPreference;
-const Buffer = __webpack_require__(17).Buffer;
-const fs = __webpack_require__(57);
+const Buffer = __webpack_require__(20).Buffer;
+const fs = __webpack_require__(56);
 const f = __webpack_require__(2).format;
 const util = __webpack_require__(2);
 const MongoError = __webpack_require__(1).MongoError;
@@ -42434,7 +42434,7 @@ function __handleError(_this, error) {
 
 
 var core = __webpack_require__(1);
-var crypto = __webpack_require__(18);
+var crypto = __webpack_require__(17);
 var stream = __webpack_require__(10);
 var util = __webpack_require__(2);
 
@@ -43003,7 +43003,7 @@ var parse_url = __webpack_require__(25).parse;
 var resolve_url = __webpack_require__(25).resolve;
 var http = __webpack_require__(73);
 var https = __webpack_require__(119);
-var zlib = __webpack_require__(53);
+var zlib = __webpack_require__(69);
 var stream = __webpack_require__(10);
 
 var Body = __webpack_require__(70);
@@ -45815,7 +45815,7 @@ module.exports = [["8740","䏰䰲䘃䖦䕸𧉧䵷䖳𧲱䳢𧳅㮕䜶䝄䱇䱀�
 "use strict";
 
 
-var Buffer = __webpack_require__(17).Buffer,
+var Buffer = __webpack_require__(20).Buffer,
     Transform = __webpack_require__(10).Transform;
 
 
@@ -45942,7 +45942,7 @@ IconvLiteDecoderStream.prototype.collect = function(cb) {
 
 "use strict";
 
-var Buffer = __webpack_require__(17).Buffer;
+var Buffer = __webpack_require__(20).Buffer;
 // Note: not polyfilled with safer-buffer on a purpose, as overrides Buffer
 
 // == Extend Node primitives to use iconv-lite =================================
@@ -45975,7 +45975,7 @@ module.exports = function (iconv) {
         }
 
         // -- SlowBuffer -----------------------------------------------------------
-        var SlowBuffer = __webpack_require__(17).SlowBuffer;
+        var SlowBuffer = __webpack_require__(20).SlowBuffer;
 
         original.SlowBufferToString = SlowBuffer.prototype.toString;
         SlowBuffer.prototype.toString = function(encoding, start, end) {
@@ -46138,7 +46138,7 @@ module.exports = function (iconv) {
 
         delete Buffer.isNativeEncoding;
 
-        var SlowBuffer = __webpack_require__(17).SlowBuffer;
+        var SlowBuffer = __webpack_require__(20).SlowBuffer;
 
         SlowBuffer.prototype.toString = original.SlowBufferToString;
         SlowBuffer.prototype.write = original.SlowBufferWrite;
@@ -46391,7 +46391,8 @@ const getUserCollection = (db, user) => {
   return db.collection('users').findOne({ userId: user.email }).then(user => {
     const series = user ? user.series : [];
     const movies = user ? user.movies : [];
-    return { statusCode: 200, body: JSON.stringify({ series, movies }) };
+    const episodes = user ? user.episodes : [];
+    return { statusCode: 200, body: JSON.stringify({ series, movies, episodes }) };
   }).catch(err => {
     console.log('=> an error occurred: ', err);
     return { statusCode: 500, body: 'error' };
@@ -46401,20 +46402,92 @@ const getUserCollection = (db, user) => {
 exports.default = getUserCollection;
 
 /***/ }),
-/* 147 */,
-/* 148 */,
+/* 147 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var config = {
+    // Default options
+    defaults: {},
+    // Error type
+    errorType: null,
+    // Polyfills
+    polyfills: {
+        fetch: null,
+        FormData: null,
+        URLSearchParams: null,
+        performance: null,
+        PerformanceObserver: null,
+        AbortController: null
+    },
+    polyfill: function (p, _a) {
+        var _b = _a === void 0 ? {} : _a, _c = _b.doThrow, doThrow = _c === void 0 ? true : _c, _d = _b.instance, instance = _d === void 0 ? false : _d;
+        var args = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
+        }
+        var res = this.polyfills[p] ||
+            (typeof self !== "undefined" ? self[p] : null) ||
+            (typeof global !== "undefined" ? global[p] : null);
+        if (doThrow && !res)
+            throw new Error(p + " is not defined");
+        return instance && res ? new (res.bind.apply(res, [void 0].concat(args)))() : res;
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (config);
+//# sourceMappingURL=config.js.map
+
+/***/ }),
+/* 148 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mix; });
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var mix = function (one, two, mergeArrays) {
+    if (mergeArrays === void 0) { mergeArrays = false; }
+    if (!one || !two || typeof one !== "object" || typeof two !== "object")
+        return one;
+    var clone = __assign({}, one);
+    for (var prop in two) {
+        if (two.hasOwnProperty(prop)) {
+            if (two[prop] instanceof Array && one[prop] instanceof Array) {
+                clone[prop] = mergeArrays ? one[prop].concat(two[prop]) : two[prop];
+            }
+            else if (typeof two[prop] === "object" && typeof one[prop] === "object") {
+                clone[prop] = mix(one[prop], two[prop], mergeArrays);
+            }
+            else {
+                clone[prop] = two[prop];
+            }
+        }
+    }
+    return clone;
+};
+//# sourceMappingURL=mix.js.map
+
+/***/ }),
 /* 149 */,
 /* 150 */,
 /* 151 */,
-/* 152 */
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-var _nodeFetch = __webpack_require__(118);
-
-var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
 
 var _connectDb = __webpack_require__(77);
 
@@ -46430,7 +46503,16 @@ var _getUser2 = _interopRequireDefault(_getUser);
 
 var _config = __webpack_require__(145);
 
+var _wretch = __webpack_require__(156);
+
+var _wretch2 = _interopRequireDefault(_wretch);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _wretch2.default)().polyfills({
+  fetch: __webpack_require__(118)
+}); //import fetch from 'node-fetch';
+
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -46444,8 +46526,8 @@ exports.handler = (event, context, callback) => {
 
     const payload = JSON.parse(result.body);
 
-    (0, _nodeFetch2.default)(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`).then(res => res.json()).then(json => {
-      const inCollection = Boolean(payload.series.find(series => series.id === json.id));
+    (0, _wretch2.default)(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`).get().json(json => {
+      const inCollection = payload.series && !!payload.series.find(series => series.id === json.id);
 
       return callback(null, {
         statusCode: 200,
@@ -46467,36 +46549,588 @@ exports.handler = (event, context, callback) => {
     console.log('=> an error occurred: ', err);
     callback(err);
   });
-}; // import fetch from 'node-fetch';
-// import {config} from '../config';
-// import getUserCollection from './queries/getUserCollection';
+};
 
-// exports.handler = (event, context, callback) => {
-//   const {apiRoot, apiKey, apiLanguage} = config;
+/***/ }),
+/* 156 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-//   fetch(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`)
-//     .then(res => res.json())
-//     .then(json => {
-//       const inCollection = Boolean(collection.series.find(series => series.id === json.id));
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wretcher__ = __webpack_require__(157);
 
-//       return callback(null, {
-//         statusCode: 200,
-//         body: JSON.stringify({
-//           payload: {
-//             details: Object.assign({isInCollection: inCollection}, json),
-//           },
-//         }),
-//       });
-//     })
-//     .catch(error => {
-//       console.log('error', error);
-//       /* Error! return the error with statusCode 400 */
-//       return callback(null, {
-//         statusCode: 400,
-//         body: JSON.stringify(error),
-//       });
-//     });
-// };
+var factory = __WEBPACK_IMPORTED_MODULE_0__wretcher__["a" /* Wretcher */].factory;
+factory["default"] = __WEBPACK_IMPORTED_MODULE_0__wretcher__["a" /* Wretcher */].factory;
+/**
+ * Return a fresh Wretcher instance.
+ */
+/* harmony default export */ __webpack_exports__["default"] = (factory);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 157 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Wretcher; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mix__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resolver__ = __webpack_require__(158);
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+
+/**
+ * The Wretcher class used to perform easy fetch requests.
+ *
+ * Immutability : almost every method of this class return a fresh Wretcher object.
+ */
+var Wretcher = /** @class */ (function () {
+    function Wretcher(_url, _options, _catchers, _resolvers, _middlewares, _deferredChain) {
+        if (_catchers === void 0) { _catchers = new Map(); }
+        if (_resolvers === void 0) { _resolvers = []; }
+        if (_middlewares === void 0) { _middlewares = []; }
+        if (_deferredChain === void 0) { _deferredChain = []; }
+        this._url = _url;
+        this._options = _options;
+        this._catchers = _catchers;
+        this._resolvers = _resolvers;
+        this._middlewares = _middlewares;
+        this._deferredChain = _deferredChain;
+    }
+    Wretcher.factory = function (url, options) {
+        if (url === void 0) { url = ""; }
+        if (options === void 0) { options = {}; }
+        return new Wretcher(url, options);
+    };
+    Wretcher.prototype.selfFactory = function (_a) {
+        var _b = _a === void 0 ? {} : _a, _c = _b.url, url = _c === void 0 ? this._url : _c, _d = _b.options, options = _d === void 0 ? this._options : _d, _e = _b.catchers, catchers = _e === void 0 ? this._catchers : _e, _f = _b.resolvers, resolvers = _f === void 0 ? this._resolvers : _f, _g = _b.middlewares, middlewares = _g === void 0 ? this._middlewares : _g, _h = _b.deferredChain, deferredChain = _h === void 0 ? this._deferredChain : _h;
+        return new Wretcher(url, options, catchers, resolvers, middlewares, deferredChain);
+    };
+    /**
+     * Sets the default fetch options used for every subsequent fetch call.
+     * @param options New default options
+     * @param mixin If true, mixes in instead of replacing the existing options
+     */
+    Wretcher.prototype.defaults = function (options, mixin) {
+        if (mixin === void 0) { mixin = false; }
+        __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].defaults = mixin ? Object(__WEBPACK_IMPORTED_MODULE_0__mix__["a" /* mix */])(__WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].defaults, options) : options;
+        return this;
+    };
+    /**
+     * Sets the method (text, json ...) used to parse the data contained in the response body in case of an HTTP error.
+     *
+     * Persists for every subsequent requests.
+     *
+     * Default is "text".
+     */
+    Wretcher.prototype.errorType = function (method) {
+        __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].errorType = method;
+        return this;
+    };
+    /**
+     * Sets the non-global polyfills which will be used for every subsequent calls.
+     *
+     * Needed for libraries like [fetch-ponyfill](https://github.com/qubyte/fetch-ponyfill).
+     *
+     * @param polyfills An object containing the polyfills.
+     */
+    Wretcher.prototype.polyfills = function (polyfills) {
+        __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].polyfills = __assign({}, __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].polyfills, polyfills);
+        return this;
+    };
+    /**
+     * Returns a new Wretcher object with the argument url appended and the same options.
+     * @param url String url
+     * @param replace Boolean If true, replaces the current url instead of appending
+     */
+    Wretcher.prototype.url = function (url, replace) {
+        if (replace === void 0) { replace = false; }
+        if (replace)
+            return this.selfFactory({ url: url });
+        var split = this._url.split("?");
+        return this.selfFactory({
+            url: split.length > 1 ?
+                split[0] + url + "?" + split[1] :
+                this._url + url
+        });
+    };
+    /**
+     * Returns a new Wretcher object with the same url and new options.
+     * @param options New options
+     * @param mixin If true, mixes in instead of replacing the existing options
+     */
+    Wretcher.prototype.options = function (options, mixin) {
+        if (mixin === void 0) { mixin = true; }
+        return this.selfFactory({ options: mixin ? Object(__WEBPACK_IMPORTED_MODULE_0__mix__["a" /* mix */])(this._options, options) : options });
+    };
+    /**
+     * Converts a javascript object to query parameters,
+     * then appends this query string to the current url.
+     *
+     * If given a string, use the string as the query verbatim.
+     *
+     * ```
+     * let w = wretch("http://example.com") // url is http://example.com
+     *
+     * // Chain query calls
+     * w = w.query({ a: 1, b : 2 }) // url is now http://example.com?a=1&b=2
+     * w = w.query("foo-bar-baz-woz") // url is now http://example.com?a=1&b=2&foo-bar-baz-woz
+     *
+     * // Pass true as the second argument to replace existing query parameters
+     * w = w.query("c=3&d=4", true) // url is now http://example.com?c=3&d=4
+     * ```
+     *
+     * @param qp An object which will be converted, or a string which will be used verbatim.
+     */
+    Wretcher.prototype.query = function (qp, replace) {
+        if (replace === void 0) { replace = false; }
+        return this.selfFactory({ url: appendQueryParams(this._url, qp, replace) });
+    };
+    /**
+     * Set request headers.
+     * @param headerValues An object containing header keys and values
+     */
+    Wretcher.prototype.headers = function (headerValues) {
+        return this.selfFactory({ options: Object(__WEBPACK_IMPORTED_MODULE_0__mix__["a" /* mix */])(this._options, { headers: headerValues }) });
+    };
+    /**
+     * Shortcut to set the "Accept" header.
+     * @param headerValue Header value
+     */
+    Wretcher.prototype.accept = function (headerValue) {
+        return this.headers({ Accept: headerValue });
+    };
+    /**
+     * Shortcut to set the "Content-Type" header.
+     * @param headerValue Header value
+     */
+    Wretcher.prototype.content = function (headerValue) {
+        return this.headers({ "Content-Type": headerValue });
+    };
+    /**
+     * Shortcut to set the "Authorization" header.
+     * @param headerValue Header value
+     */
+    Wretcher.prototype.auth = function (headerValue) {
+        return this.headers({ Authorization: headerValue });
+    };
+    /**
+     * Adds a default catcher which will be called on every subsequent request error when the error code matches.
+     * @param errorId Error code or name
+     * @param catcher: The catcher method
+     */
+    Wretcher.prototype.catcher = function (errorId, catcher) {
+        var newMap = new Map(this._catchers);
+        newMap.set(errorId, catcher);
+        return this.selfFactory({ catchers: newMap });
+    };
+    /**
+     * Associates a custom signal with the request.
+     * @param controller : An AbortController
+     */
+    Wretcher.prototype.signal = function (controller) {
+        return this.selfFactory({ options: __assign({}, this._options, { signal: controller.signal }) });
+    };
+    /**
+     * Program a resolver to perform response chain tasks automatically.
+     * @param doResolve : Resolver callback
+     */
+    Wretcher.prototype.resolve = function (doResolve, clear) {
+        if (clear === void 0) { clear = false; }
+        return this.selfFactory({ resolvers: clear ? [doResolve] : this._resolvers.concat([doResolve]) });
+    };
+    /**
+     * Defer wretcher methods that will be chained and called just before the request is performed.
+     */
+    Wretcher.prototype.defer = function (callback, clear) {
+        if (clear === void 0) { clear = false; }
+        return this.selfFactory({
+            deferredChain: clear ? [callback] : this._deferredChain.concat([callback])
+        });
+    };
+    /**
+     * Add middlewares to intercept a request before being sent.
+     */
+    Wretcher.prototype.middlewares = function (middlewares, clear) {
+        if (clear === void 0) { clear = false; }
+        return this.selfFactory({
+            middlewares: clear ? middlewares : this._middlewares.concat(middlewares)
+        });
+    };
+    Wretcher.prototype.method = function (method, options, body) {
+        if (options === void 0) { options = {}; }
+        if (body === void 0) { body = null; }
+        var baseWretcher = !body ? this :
+            typeof body === "object" ? this.json(body) :
+                this.body(body);
+        var deferredWretcher = baseWretcher._deferredChain.reduce(function (acc, curr) { return curr(acc, acc._url, acc._options); }, baseWretcher);
+        return Object(__WEBPACK_IMPORTED_MODULE_2__resolver__["a" /* resolver */])(deferredWretcher.options(__assign({}, options, { method: method })));
+    };
+    /**
+     * Performs a get request.
+     */
+    Wretcher.prototype.get = function (options) {
+        return this.method("GET", options);
+    };
+    /**
+     * Performs a delete request.
+     */
+    Wretcher.prototype.delete = function (options) {
+        return this.method("DELETE", options);
+    };
+    /**
+     * Performs a put request.
+     */
+    Wretcher.prototype.put = function (body, options) {
+        return this.method("PUT", options, body);
+    };
+    /**
+     * Performs a post request.
+     */
+    Wretcher.prototype.post = function (body, options) {
+        return this.method("POST", options, body);
+    };
+    /**
+     * Performs a patch request.
+     */
+    Wretcher.prototype.patch = function (body, options) {
+        return this.method("PATCH", options, body);
+    };
+    /**
+     * Performs a head request.
+     */
+    Wretcher.prototype.head = function (options) {
+        return this.method("HEAD", options);
+    };
+    /**
+     * Performs an options request
+     */
+    Wretcher.prototype.opts = function (options) {
+        return this.method("OPTIONS", options);
+    };
+    /**
+     * Sets the request body with any content.
+     * @param contents The body contents
+     */
+    Wretcher.prototype.body = function (contents) {
+        return this.selfFactory({ options: __assign({}, this._options, { body: contents }) });
+    };
+    /**
+     * Sets the content type header, stringifies an object and sets the request body.
+     * @param jsObject An object which will be serialized into a JSON
+     */
+    Wretcher.prototype.json = function (jsObject) {
+        return this.content("application/json").body(JSON.stringify(jsObject));
+    };
+    /**
+     * Converts the javascript object to a FormData and sets the request body.
+     * @param formObject An object which will be converted to a FormData
+     */
+    Wretcher.prototype.formData = function (formObject) {
+        return this.body(convertFormData(formObject));
+    };
+    /**
+     * Converts the input to an url encoded string and sets the content-type header and body.
+     * If the input argument is already a string, skips the conversion part.
+     *
+     * @param input An object to convert into an url encoded string or an already encoded string
+     */
+    Wretcher.prototype.formUrl = function (input) {
+        return this
+            .body(typeof input === "string" ? input : convertFormUrl(input))
+            .content("application/x-www-form-urlencoded");
+    };
+    return Wretcher;
+}());
+
+// Internal helpers
+var appendQueryParams = function (url, qp, replace) {
+    var queryString;
+    if (typeof qp === "string") {
+        queryString = qp;
+    }
+    else {
+        var usp = __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].polyfill("URLSearchParams", { instance: true });
+        for (var key in qp) {
+            if (qp[key] instanceof Array) {
+                for (var _i = 0, _a = qp[key]; _i < _a.length; _i++) {
+                    var val = _a[_i];
+                    usp.append(key, val);
+                }
+            }
+            else {
+                usp.append(key, qp[key]);
+            }
+        }
+        queryString = usp.toString();
+    }
+    var split = url.split("?");
+    if (replace || split.length < 2)
+        return split[0] + "?" + queryString;
+    return url + "&" + queryString;
+};
+function convertFormData(formObject) {
+    var formData = __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].polyfill("FormData", { instance: true });
+    for (var key in formObject) {
+        if (formObject[key] instanceof Array) {
+            for (var _i = 0, _a = formObject[key]; _i < _a.length; _i++) {
+                var item = _a[_i];
+                formData.append(key + "[]", item);
+            }
+        }
+        else {
+            formData.append(key, formObject[key]);
+        }
+    }
+    return formData;
+}
+function encodeQueryValue(key, value) {
+    return encodeURIComponent(key) +
+        "=" +
+        encodeURIComponent(typeof value === "object" ?
+            JSON.stringify(value) :
+            "" + value);
+}
+function convertFormUrl(formObject) {
+    return Object.keys(formObject)
+        .map(function (key) {
+        var value = formObject[key];
+        if (value instanceof Array) {
+            return value.map(function (v) { return encodeQueryValue(key, v); }).join("&");
+        }
+        return encodeQueryValue(key, value);
+    })
+        .join("&");
+}
+//# sourceMappingURL=wretcher.js.map
+
+/***/ }),
+/* 158 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return resolver; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mix__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__perfs__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__middleware__ = __webpack_require__(160);
+
+
+
+
+var resolver = function (wretcher) {
+    var url = wretcher._url, catchers = wretcher._catchers, resolvers = wretcher._resolvers, middlewares = wretcher._middlewares, opts = wretcher._options;
+    var finalOptions = Object(__WEBPACK_IMPORTED_MODULE_0__mix__["a" /* mix */])(__WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].defaults, opts);
+    var fetchController = __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].polyfill("AbortController", { doThrow: false, instance: true });
+    if (!finalOptions["signal"] && fetchController) {
+        finalOptions["signal"] = fetchController.signal;
+    }
+    // The generated fetch request
+    var fetchRequest = Object(__WEBPACK_IMPORTED_MODULE_3__middleware__["a" /* middlewareHelper */])(middlewares)(__WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].polyfill("fetch"))(url, finalOptions);
+    // Throws on an http error
+    var throwingPromise = fetchRequest.then(function (response) {
+        if (!response.ok) {
+            return response[__WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].errorType || "text"]().then(function (msg) {
+                // Enhances the error object
+                var err = new Error(msg);
+                err[__WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].errorType || "text"] = msg;
+                err["status"] = response.status;
+                err["response"] = response;
+                throw err;
+            });
+        }
+        return response;
+    });
+    // Wraps the Promise in order to dispatch the error to a matching catcher
+    var catchersWrapper = function (promise) {
+        return promise.catch(function (err) {
+            if (catchers.has(err.status))
+                return catchers.get(err.status)(err, wretcher);
+            else if (catchers.has(err.name))
+                return catchers.get(err.name)(err, wretcher);
+            else
+                throw err;
+        });
+    };
+    var bodyParser = function (funName) { return function (cb) { return funName ?
+        // If a callback is provided, then callback with the body result otherwise return the parsed body itself.
+        catchersWrapper(throwingPromise.then(function (_) { return _ && _[funName](); }).then(function (_) { return _ && cb && cb(_) || _; })) :
+        // No body parsing method - return the response
+        catchersWrapper(throwingPromise.then(function (_) { return _ && cb && cb(_) || _; })); }; };
+    var responseChain = {
+        /**
+         * Retrieves the raw result as a promise.
+         */
+        res: bodyParser(null),
+        /**
+         * Retrieves the result as a parsed JSON object.
+         */
+        json: bodyParser("json"),
+        /**
+         * Retrieves the result as a Blob object.
+         */
+        blob: bodyParser("blob"),
+        /**
+         * Retrieves the result as a FormData object.
+         */
+        formData: bodyParser("formData"),
+        /**
+         * Retrieves the result as an ArrayBuffer object.
+         */
+        arrayBuffer: bodyParser("arrayBuffer"),
+        /**
+         * Retrieves the result as a string.
+         */
+        text: bodyParser("text"),
+        /**
+         * Performs a callback on the API performance timings of the request.
+         *
+         * Warning: Still experimental on browsers and node.js
+         */
+        perfs: function (cb) {
+            fetchRequest.then(function (res) { return __WEBPACK_IMPORTED_MODULE_2__perfs__["a" /* default */].observe(res.url, cb); });
+            return responseChain;
+        },
+        /**
+         * Aborts the request after a fixed time.
+         *
+         * @param time Time in milliseconds
+         * @param controller A custom controller
+         */
+        setTimeout: function (time, controller) {
+            if (controller === void 0) { controller = fetchController; }
+            setTimeout(function () { return controller.abort(); }, time);
+            return responseChain;
+        },
+        /**
+         * Returns the automatically generated AbortController alongside the current wretch response as a pair.
+         */
+        controller: function () { return [fetchController, responseChain]; },
+        /**
+         * Catches an http response with a specific error code or name and performs a callback.
+         */
+        error: function (errorId, cb) {
+            catchers.set(errorId, cb);
+            return responseChain;
+        },
+        /**
+         * Catches a bad request (http code 400) and performs a callback.
+         */
+        badRequest: function (cb) { return responseChain.error(400, cb); },
+        /**
+         * Catches an unauthorized request (http code 401) and performs a callback.
+         */
+        unauthorized: function (cb) { return responseChain.error(401, cb); },
+        /**
+         * Catches a forbidden request (http code 403) and performs a callback.
+         */
+        forbidden: function (cb) { return responseChain.error(403, cb); },
+        /**
+         * Catches a "not found" request (http code 404) and performs a callback.
+         */
+        notFound: function (cb) { return responseChain.error(404, cb); },
+        /**
+         * Catches a timeout (http code 408) and performs a callback.
+         */
+        timeout: function (cb) { return responseChain.error(408, cb); },
+        /**
+         * Catches an internal server error (http code 500) and performs a callback.
+         */
+        internalError: function (cb) { return responseChain.error(500, cb); },
+        /**
+         * Catches an AbortError and performs a callback.
+         */
+        onAbort: function (cb) { return responseChain.error("AbortError", cb); }
+    };
+    return resolvers.reduce(function (chain, r) { return r(chain, wretcher); }, responseChain);
+};
+//# sourceMappingURL=resolver.js.map
+
+/***/ }),
+/* 159 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(147);
+
+var onMatch = function (entries, name, callback, _performance) {
+    if (!entries.getEntriesByName)
+        return false;
+    var matches = entries.getEntriesByName(name);
+    if (matches && matches.length > 0) {
+        callback(matches.reverse()[0]);
+        if (_performance.clearMeasures)
+            _performance.clearMeasures(name);
+        perfs.callbacks.delete(name);
+        if (perfs.callbacks.size < 1) {
+            perfs.observer.disconnect();
+            if (_performance.clearResourceTimings) {
+                _performance.clearResourceTimings();
+            }
+        }
+        return true;
+    }
+    return false;
+};
+var lazyObserver = function (_performance, _observer) {
+    if (!perfs.observer && _performance && _observer) {
+        perfs.observer = new _observer(function (entries) {
+            perfs.callbacks.forEach(function (callback, name) {
+                onMatch(entries, name, callback, _performance);
+            });
+        });
+        if (_performance.clearResourceTimings)
+            _performance.clearResourceTimings();
+    }
+    return perfs.observer;
+};
+var perfs = {
+    callbacks: new Map(),
+    observer: null,
+    observe: function (name, callback) {
+        if (!name || !callback)
+            return;
+        var _performance = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].polyfill("performance", { doThrow: false });
+        var _observer = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].polyfill("PerformanceObserver", { doThrow: false });
+        if (!lazyObserver(_performance, _observer))
+            return;
+        if (!onMatch(_performance, name, callback, _performance)) {
+            if (perfs.callbacks.size < 1)
+                perfs.observer.observe({ entryTypes: ["resource", "measure"] });
+            perfs.callbacks.set(name, callback);
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (perfs);
+//# sourceMappingURL=perfs.js.map
+
+/***/ }),
+/* 160 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return middlewareHelper; });
+var middlewareHelper = function (middlewares) { return function (fetchFunction) {
+    return (middlewares.length === 0 ?
+        fetchFunction :
+        middlewares.length === 1 ?
+            middlewares[0](fetchFunction) :
+            middlewares.reduceRight(function (acc, curr, idx) {
+                return (idx === middlewares.length - 2) ? curr(acc(fetchFunction)) : curr(acc);
+            }));
+}; };
+//# sourceMappingURL=middleware.js.map
 
 /***/ })
 /******/ ])));

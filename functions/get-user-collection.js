@@ -35,10 +35,8 @@ exports.handler = (event, context, callback) => {
 
       apiSeries.then(series => {
         const newSeries = series.map(s => {
-          const userSeries = payload.series.find(ps => ps.id === s.id);
-          if (userSeries && userSeries.episodes) {
-            s.watchedEpisodesCount = userSeries.episodes.length;
-          }
+          const userEpisodes = payload.episodes.filter(e => e.series_id === s.id && e.season_number !== 0);
+          s.watched_episodes_count = userEpisodes.length;
           return s;
         });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 import ScoreChart from './ScoreChart';
 
 const Episode = styled.li`
@@ -28,7 +28,7 @@ const EpisodeList = ({episodes}) => (
   <ul>
     {episodes.map(episode => (
       <Episode>
-        <img src={`https://image.tmdb.org/t/p/w300/${episode.still_path}`} />
+        <img src={`https://image.tmdb.org/t/p/w300/${episode.still_path}`} alt={episode.name} />
         <div>
           <h3>{`${episode.episode_number} - ${episode.name}`}</h3>
           <ScoreChart score={episode.vote_average} />

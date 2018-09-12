@@ -7,7 +7,8 @@ const getUserCollection = (db, user) => {
     .then(user => {
       const series = user ? user.series : [];
       const movies = user ? user.movies : [];
-      return {statusCode: 200, body: JSON.stringify({series, movies})};
+      const episodes = user ? user.episodes : [];
+      return {statusCode: 200, body: JSON.stringify({series, movies, episodes})};
     })
     .catch(err => {
       console.log('=> an error occurred: ', err);

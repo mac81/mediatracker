@@ -4,10 +4,13 @@ import {bindActionCreators} from 'redux';
 
 import {SELECTORS} from '../reducers';
 import styled from 'styled-components';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 import {Link} from 'react-router-dom';
-import * as CollectionActions from '../actions/collectionActions';
+import * as SeriesActions from '../actions/seriesActions';
 import {Page} from './';
+import Overview from './series/Overview';
+import Loader from '../components/Loader';
+import SeasonPicker from '../components/SeasonPicker/SeasonPicker';
 
 const StyledCollectionSeries = styled.div`
   .hero {
@@ -58,21 +61,76 @@ const StyledCollectionSeries = styled.div`
       color: rgba(255, 255, 255, 0.6);
     }
   }
+
+  span {
+    ${font('body1')};
+    display: block;
+  }
+  .small {
+    ${font('small')};
+    color: #979797;
+  }
+
+  .overview {
+    ${font('small')};
+    color: #6e6e6e;
+  }
+
+  .grid-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .grid-header {
+    background-image: linear-gradient(to right bottom, #041c2c, #10283a, #1c3548, #294357, #355166);
+  }
+
+  .grid-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 4fr 1fr;
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  .grid-cell {
+    padding: 12px 20px;
+    text-align: left;
+    align-self: center;
+  }
+
+  .grid-cell-center {
+    text-align: center;
+  }
 `;
 
 class CollectionSeries extends React.Component {
-  addEpisode = (seriesId, episodeId) => {
-    this.props.addEpisode({seriesId, episodeId});
+  onAddAllEpisodes = seriesId => {
+    this.props.addAllEpisodes({seriesId});
+  };
+
+  addEpisode = (seriesId, episodeId, seasonNumber) => {
+    this.props.addEpisode({seriesId, episodeId, seasonNumber});
   };
 
   removeEpisode = (seriesId, episodeId) => {
     this.props.removeEpisode({seriesId, episodeId});
   };
 
-  render() {
-    const {series, season, palette, addEpisode, removeEpisode, userCollection} = this.props;
+  onChangeEpisode = (seriesId, episode) => {
+    const episodeId = episode.id;
+    const seasonNumber = episode.season_number;
 
-    if (!season || !series) return null;
+    if (episode.watched) {
+      this.props.removeEpisode({seriesId, episodeId});
+    } else {
+      this.props.addEpisode({seriesId, episodeId, seasonNumber});
+    }
+  };
+
+  render() {
+    const {series, season, palette, userCollection} = this.props;
+
+    if (!season || !series) return <Loader />;
 
     return (
       <Page>
@@ -86,48 +144,35 @@ class CollectionSeries extends React.Component {
             </div>
           </div>
 
-          <nav>
-            <ul>
-              {series.seasons.map(s => (
-                <li key={s.id} className={s.id === season.id ? 'active' : undefined}>
-                  <Link to={`/collection/${series.id}/season/${s.season_number}`}>{s.season_number}</Link>
-                </li>
+          <SeasonPicker />
+          <button onClick={() => this.onAddAllEpisodes(series.id)}>Mark entire series as watched</button>
+          <div className="grid-wrapper">
+            <div className="grid-body">
+              {season.episodes.map(episode => (
+                <div className="grid-row" key={episode.id}>
+                  <div className="grid-cell">
+                    <span className="small">{`s${episode.season_number}e${episode.episode_number}`}</span>
+                    <span>{episode.name}</span>
+                  </div>
+                  <div className="grid-cell grid-cell-center">
+                    <span className="small">Air date</span>
+                    {episode.air_date}
+                  </div>
+                  <div className="grid-cell">
+                    <span className="overview">{episode.overview}</span>
+                  </div>
+                  <div className="grid-cell grid-cell-center">
+                    <span className="small">Watched?</span>
+                    <input
+                      type="checkbox"
+                      checked={episode.watched}
+                      onChange={() => this.onChangeEpisode(series.id, episode)}
+                    />
+                  </div>
+                </div>
               ))}
-            </ul>
-          </nav>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Air date</th>
-                <th>Overview</th>
-                <th>Watched?</th>
-              </tr>
-            </thead>
-            <tbody>
-              {season.episodes.map(episode => {
-                const userEpisodes = userCollection.series.find(s => s.id === series.id).episodes;
-                const isInCollection = Boolean(userEpisodes && userEpisodes.find(ep => ep === episode.id));
-                return (
-                  <tr key={episode.id}>
-                    <td>
-                      <span>{`s${episode.season_number}e${episode.episode_number}`}</span>
-                      {episode.name}
-                    </td>
-                    <td>{episode.air_date}</td>
-                    <td>{episode.overview}</td>
-                    <td>
-                      {isInCollection ? (
-                        <button onClick={() => this.removeEpisode(series.id, episode.id)}>Remove</button>
-                      ) : (
-                        <button onClick={() => this.addEpisode(series.id, episode.id)}>Add</button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+            </div>
+          </div>
         </StyledCollectionSeries>
       </Page>
     );
@@ -141,7 +186,7 @@ const mapStateToProps = state => ({
   season: SELECTORS.SERIES.getSeason(state),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(CollectionActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(SeriesActions, dispatch);
 
 export default connect(
   mapStateToProps,

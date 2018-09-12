@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {SELECTORS} from '../reducers';
 import styled from 'styled-components';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 import UserMenu from './UserMenu';
 
 const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-image: radial-gradient(circle at 20% 50%, rgb(4, 28, 44) 0%, rgb(53, 81, 102) 100%);
+  background-image: linear-gradient(to right top, #34234e, #572d5b, #793764, #9b4268, #ba5268);
   padding: 20px;
 
   .left {
@@ -42,10 +44,14 @@ const StyledHeader = styled.header`
 
 class Header extends Component {
   render() {
+    const {user} = this.props;
     return (
       <StyledHeader>
         <div className="left">
-          <img src="http://reforgedstudios.com/site/templates/images/media/reforged_logo_horizontal_white_text.png" />
+          <img
+            src="http://reforgedstudios.com/site/templates/images/media/reforged_logo_horizontal_white_text.png"
+            alt="logo"
+          />
           <nav>
             <ul>
               <li>
@@ -60,13 +66,14 @@ class Header extends Component {
             </ul>
           </nav>
         </div>
-        <div>
-          <Link to="/collection">My collection</Link>
-          <UserMenu />
-        </div>
+        <UserMenu />
       </StyledHeader>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = (state, props) => ({
+  user: SELECTORS.USER.getUser(state),
+});
+
+export default connect(mapStateToProps)(Header);

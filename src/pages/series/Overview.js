@@ -1,9 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {SELECTORS} from '../../reducers';
 import styled from 'styled-components';
-import {font, color} from '../../styles/typography';
+import {font} from '../../styles/typography';
 import Seasons from '../../components/Seasons';
 import Hero from '../../components/Hero';
 import Facts from '../../components/Facts';

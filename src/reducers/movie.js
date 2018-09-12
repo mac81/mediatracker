@@ -8,7 +8,7 @@ export default createReducer(initialState, {
     ...state,
     details: {
       ...movie.details,
-      ['media_type']: 'movie',
+      media_type: 'movie',
     },
   }),
 });

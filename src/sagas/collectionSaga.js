@@ -14,8 +14,8 @@ function* collection() {
   yield takeLatest(CollectionActions.addMovieToCollection, addMovieToCollectionSaga);
   yield takeLatest(CollectionActions.addSeriesToCollection, addSeriesToCollectionSaga);
   yield takeLatest(CollectionActions.removeSeriesFromCollection, removeSeriesFromCollectionSaga);
-  yield takeLatest(CollectionActions.addEpisode, addEpisodeSaga);
-  yield takeLatest(CollectionActions.removeEpisode, removeEpisodeSaga);
+  // yield takeLatest(CollectionActions.addEpisode, addEpisodeSaga);
+  // yield takeLatest(CollectionActions.removeEpisode, removeEpisodeSaga);
 }
 
 /***********************
@@ -94,42 +94,43 @@ function* removeSeriesFromCollection(id) {
   }
 }
 
-/***********************
- * ADD EPISODE
- **********************/
+// /***********************
+//  * ADD EPISODE
+//  **********************/
 
-function* addEpisodeSaga({payload: {seriesId, episodeId}}) {
-  yield fork(addEpisode, seriesId, episodeId);
-}
+// function* addEpisodeSaga({payload: {seriesId, episodeId, seasonNumber}}) {
+//   yield fork(addEpisode, seriesId, episodeId, seasonNumber);
+// }
 
-function* addEpisode(seriesId, episodeId) {
-  yield put(CollectionActions.addEpisode.request(episodeId));
-  try {
-    const episode = yield call(addEpisodeApi, seriesId, episodeId);
-    yield put(CollectionActions.addEpisode.success({seriesId, episodeId}));
-  } catch (error) {
-    console.log(error);
-    yield put(CollectionActions.addEpisode.failure(error));
-  }
-}
+// function* addEpisode(seriesId, episodeId, seasonNumber) {
+//   yield put(CollectionActions.addEpisode.request(episodeId));
+//   try {
+//     yield call(addEpisodeApi, seriesId, episodeId, seasonNumber);
+//     yield put(CollectionActions.addEpisode.success({seriesId, episodeId}));
+//   } catch (error) {
+//     console.log(error);
+//     yield put(CollectionActions.addEpisode.failure(error));
+//   }
+// }
 
-/***********************
- * REMOVE EPISODE
- **********************/
+// /***********************
+//  * REMOVE EPISODE
+//  **********************/
 
-function* removeEpisodeSaga({payload: {seriesId, episodeId}}) {
-  yield fork(removeEpisode, seriesId, episodeId);
-}
+// function* removeEpisodeSaga({payload: {seriesId, episodeId}}) {
+//   yield fork(removeEpisode, seriesId, episodeId);
+// }
 
-function* removeEpisode(seriesId, episodeId) {
-  yield put(CollectionActions.removeEpisode.request(episodeId));
-  try {
-    const episode = yield call(removeEpisodeApi, seriesId, episodeId);
-    yield put(CollectionActions.removeEpisode.success({seriesId, episodeId}));
-  } catch (error) {
-    console.log(error);
-    yield put(CollectionActions.removeEpisode.failure(error));
-  }
-}
+// function* removeEpisode(seriesId, episodeId) {
+//   yield put(CollectionActions.removeEpisode.request(episodeId));
+//   try {
+//     yield call(removeEpisodeApi, seriesId, episodeId);
+//     console.log(seriesId, episodeId);
+//     yield put(CollectionActions.removeEpisode.success({seriesId, episodeId}));
+//   } catch (error) {
+//     console.log(error);
+//     yield put(CollectionActions.removeEpisode.failure(error));
+//   }
+// }
 
 export default collection;

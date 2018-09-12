@@ -1,39 +1,13 @@
-// import fetch from 'node-fetch';
-// import {config} from '../config';
-// import getUserCollection from './queries/getUserCollection';
-
-// exports.handler = (event, context, callback) => {
-//   const {apiRoot, apiKey, apiLanguage} = config;
-
-//   fetch(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`)
-//     .then(res => res.json())
-//     .then(json => {
-//       const inCollection = Boolean(collection.series.find(series => series.id === json.id));
-
-//       return callback(null, {
-//         statusCode: 200,
-//         body: JSON.stringify({
-//           payload: {
-//             details: Object.assign({isInCollection: inCollection}, json),
-//           },
-//         }),
-//       });
-//     })
-//     .catch(error => {
-//       console.log('error', error);
-//       /* Error! return the error with statusCode 400 */
-//       return callback(null, {
-//         statusCode: 400,
-//         body: JSON.stringify(error),
-//       });
-//     });
-// };
-
-import fetch from 'node-fetch';
+//import fetch from 'node-fetch';
 import connectToDatabase from './utils/connect-db';
 import getUserCollection from './queries/getUserCollection';
 import getUser from './utils/get-user';
 import {config} from '../config';
+import wretch from 'wretch';
+
+wretch().polyfills({
+  fetch: require('node-fetch'),
+});
 
 exports.handler = (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -49,10 +23,10 @@ exports.handler = (event, context, callback) => {
 
       const payload = JSON.parse(result.body);
 
-      fetch(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`)
-        .then(res => res.json())
-        .then(json => {
-          const inCollection = Boolean(payload.series.find(series => series.id === json.id));
+      wretch(`${apiRoot}tv/${event.queryStringParameters.id}?api_key=${apiKey}`)
+        .get()
+        .json(json => {
+          const inCollection = payload.series && !!payload.series.find(series => series.id === json.id);
 
           return callback(null, {
             statusCode: 200,

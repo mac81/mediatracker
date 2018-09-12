@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import {font, color} from '../styles/typography';
+import {font} from '../styles/typography';
 
 const StyledScoreChart = styled.div`
   display: flex;

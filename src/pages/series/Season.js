@@ -1,9 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {SELECTORS} from '../../reducers';
-import styled from 'styled-components';
-import {font, color} from '../../styles/typography';
 import EpisodeList from '../../components/EpisodeList';
 
 class Season extends React.Component {

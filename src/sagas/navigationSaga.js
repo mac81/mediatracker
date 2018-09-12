@@ -1,12 +1,12 @@
 import {put, takeLatest, fork} from 'redux-saga/effects';
-import * as types from '../actionTypes/actionTypes';
+import * as NavigationActions from '../actions/navigationActions';
 import {matchPath} from 'react-router-dom';
 import * as SeriesActions from '../actions/seriesActions';
 import * as MovieActions from '../actions/movieActions';
 import * as CollectionActions from '../actions/collectionActions';
 
 function* navigation() {
-  yield takeLatest([types.APP_INIT, types.LOCATION_CHANGE], routeChangeSaga);
+  yield takeLatest(NavigationActions.locationChange, routeChangeSaga);
 }
 
 function* routeChange(pathname) {
@@ -50,7 +50,7 @@ function* routeChange(pathname) {
     exact: true,
   });
   if (collectionSeriesMatch) {
-    yield put(CollectionActions.fetchUserCollection());
+    //yield put(CollectionActions.fetchUserCollection());
     yield put(SeriesActions.fetchSeriesWithLatestSeason({id: collectionSeriesMatch.params.id}));
     return;
   }
